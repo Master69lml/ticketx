@@ -32,35 +32,35 @@
             <div class="box-body table-responsive">
 
 <div class="col-md-12">
-        	<table class="table table-hover" id="usertable">
-        	    <thead>
-        		<tr>
-        			<th>No</th>
-        			<th>Avatar</th>
-        			<th>Name</th>
-        			<th>Email</th>
-        			<th>Provider</th>
-        			<th>Roles</th>
-        		</tr>
-        		</thead>
-        		<tbody>
-                	@foreach ($data as $key => $user)
-                	<tr>
-                		<td>{{ ++$i }}</td>
-                		<td><img src="{{ $user->getAvatarUrl() }}" class="img-circle" height="32" width="32" alt="User Image"></td>
-                		<td><a href="{{ route('users.show',$user->id) }}">{{ $user->fullname }}</a></td>
-                		<td>{{ $user->email }}</td>
-                		<td>{{ $user->provider }}</td>
-                		<td>
-                				@foreach($user->roles as $v)
-                					<label class="label label-success">{{ $v->display_name }}</label>
-                				@endforeach
-                		</td>
-                	</tr>
-                	@endforeach
-                	</tbody>
-        	</table>
-        	</div>
+          <table class="table table-hover" id="usertable">
+              <thead>
+            <tr>
+              <th>No</th>
+              <th>Avatar</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Provider</th>
+              <th>Roles</th>
+            </tr>
+            </thead>
+            <tbody>
+                  @foreach ($data as $key => $user)
+                  <tr>
+                    <td>{{ ++$i }}</td>
+                    <td><img src="{{ $user->getAvatarUrl() }}" class="img-circle" height="32" width="32" alt="User Image"></td>
+                    <td><a href="{{ route('users.show',$user->id) }}">{{ $user->fullname }}</a></td>
+                    <td>{{ $user->email }}</td>
+                    <td>{{ $user->provider }}</td>
+                    <td>
+                        @foreach($user->roles as $v)
+                          <label class="label label-success">{{ $v->display_name }}</label>
+                        @endforeach
+                    </td>
+                  </tr>
+                  @endforeach
+                  </tbody>
+          </table>
+          </div>
             </div>
           </div>	
           <a class="btn bg-purple" href="{{ route('users.create') }}"> Create New User</a>

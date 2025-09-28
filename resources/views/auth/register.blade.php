@@ -36,12 +36,12 @@
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Sign up for a new account</p>
+    <p class="login-box-msg">{{ trans('auth.sign_up_account') }}</p>
 
          <form role="form" method="POST" action="{{ route('auth.register') }}" _lpchecked="1">
             {!! csrf_field() !!}
             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }} has-feedback">
-            <input type="text" name="name" id="name" class="form-control" placeholder="Name"> 
+            <input type="text" name="name" id="name" class="form-control" placeholder="{{ trans('auth.name') }}"> 
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
                     @if ($errors->has('name'))
                         <span class="help-block">{{ $errors->first('name') }}</span>
@@ -49,7 +49,7 @@
                 </div>
 
             <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }} has-feedback">
-            <input type="text" name="email" id="email" class="form-control" placeholder="Email"> 
+            <input type="text" name="email" id="email" class="form-control" placeholder="{{ trans('auth.email') }}"> 
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                     @if ($errors->has('email'))
                         <span class="help-block">{{ $errors->first('email') }}</span>
@@ -57,7 +57,7 @@
                 </div>
 
             <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }} has-feedback">
-                <input type="password" name="password" id="password" class="form-control" placeholder="Password">
+                <input type="password" name="password" id="password" class="form-control" placeholder="{{ trans('auth.password') }}">
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     @if ($errors->has('password'))
                         <span class="help-block">{{ $errors->first('password') }}</span>
@@ -65,7 +65,7 @@
                 </div>
 
             <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }} has-feedback">
-                <input type="password" name="password_confirmation" class="form-control" placeholder="Confirm Password">
+                <input type="password" name="password_confirmation" class="form-control" placeholder="{{ trans('auth.confirm_password') }}">
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     @if ($errors->has('password_confirmation'))
                         <span class="help-block">{{ $errors->first('password_confirmation') }}</span>
@@ -74,12 +74,12 @@
 
                   <div class="row">
                     <div class="col-xs-4">
-                      <button type="submit" class="btn btn-primary btn-block btn-flat">Sign Up</button>
+                      <button type="submit" class="btn btn-primary btn-block btn-flat">{{ trans('auth.sign_up') }}</button>
                     </div>
                     <!-- /.col -->
                   </div>
-                  <a href="{{ url('/login') }}">Sign in to your account</a><br>
-                    <a href="{{ url('/') }}">Return home</a><br>
+                  <a href="{{ url('/login') }}">{{ trans('auth.sign_in_account') }}</a><br>
+                    <a href="{{ url('/') }}">{{ trans('texts.return_home') }}</a><br>
                   
         </form>
         

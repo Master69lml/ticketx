@@ -5,12 +5,12 @@
    <div class="content-wrapper">
         <section class="content-header">
             <h1>
-                Admin
-                <small>Dashboard</small>
+                Administración
+                <small>Panel de Control</small>
             </h1>
       
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Admin</a></li>
+                <li><a href="#"><i class="fa fa-dashboard"></i> Administración</a></li>
             </ol>
         </section>
 
@@ -28,7 +28,7 @@
             <span class="info-box-icon bg-aqua"><i class="fa fa-folder-open"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">Open Tickets</span>
+              <span class="info-box-text">Tickets Abiertos</span>
               <span class="info-box-number">{{ $count_open_ticket }}</span>
             </div>
           </div>
@@ -39,7 +39,7 @@
             <span class="info-box-icon bg-green"><i class="fa fa-check-square"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">Closed Tickets</span>
+              <span class="info-box-text">Tickets Cerrados</span>
               <span class="info-box-number">{{ $count_closed_ticket }}</span>
             </div>
           </div>
@@ -50,7 +50,7 @@
             <span class="info-box-icon bg-yellow"><i class="fa fa-folder"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">In Progress</span>
+              <span class="info-box-text">En Progreso</span>
               <span class="info-box-number">{{ $count_inprogress_ticket }}</span>
             </div>
           </div>
@@ -61,7 +61,7 @@
             <span class="info-box-icon bg-red"><i class="fa fa-history"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">Reopened</span>
+              <span class="info-box-text">Reabiertos</span>
               <span class="info-box-number">{{ $count_reopened_ticket }}</span>
             </div>
           </div>
@@ -77,13 +77,13 @@
           <div class="small-box bg-teal">
             <div class="inner">
               <h3>{{ $count_permissions }}</h3>
-              <p>Permissions</p>
+              <p>Permisos</p>
             </div>
             <div class="icon">
               <i class="fa fa-key"></i>
             </div>
             <a href="{{ route('permissions.index') }}" class="small-box-footer">
-              More info <i class="fa fa-arrow-circle-right"></i>
+              Más información <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
         </div>
@@ -94,13 +94,13 @@
           <div class="small-box bg-maroon">
             <div class="inner">
               <h3>{{ $count_users }}</h3>
-              <p>Users</p>
+              <p>Usuarios</p>
             </div>
             <div class="icon">
               <i class="fa fa-users"></i>
             </div>
             <a href="{{ route('users.index') }}" class="small-box-footer">
-              More info <i class="fa fa-arrow-circle-right"></i>
+              Más información <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
         </div>
@@ -117,7 +117,7 @@
               <i class="fa fa-archive"></i>
             </div>
             <a href="{{ route('roles.index') }}" class="small-box-footer">
-              More info <i class="fa fa-arrow-circle-right"></i>
+              Más información <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
         </div>

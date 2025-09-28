@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'My tickets')
+@section('title', 'Mis tickets')
 
 @section('content')
   <div class="content-wrapper">
@@ -9,7 +9,7 @@
       <section class="content-header">
         <h1>
           {{ site_name() }}
-          <small>My tickets</small>
+          <small>Mis tickets</small>
         </h1>
       </section>
       
@@ -19,23 +19,23 @@
 
           <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title"><i class="fa fa-ticket"> My tickets</i></h3>
+                <h3 class="box-title"><i class="fa fa-ticket"> Mis tickets</i></h3>
             </div>
             <div class="box-body">
                     @if ($tickets->isEmpty())
-                        <p>You have not created any tickets.</p>
+                        <p>No has creado ningún ticket.</p>
                     @else
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Ticket ID</th>
-                                    <th>Title</th>
-                                    <th>Comments</th>
-                                    <th>Category</th>
-                                    <th>Status</th>
-                                    <th>Priority</th>
-                                    <th>Created</th>                                
-                                    <th>Last Updated</th>
+                                    <th>ID Ticket</th>
+                                    <th>Título</th>
+                                    <th>Comentarios</th>
+                                    <th>Categoría</th>
+                                    <th>Estado</th>
+                                    <th>Prioridad</th>
+                                    <th>Creado</th>                                
+                                    <th>Última Actualización</th>
                                 </tr>
                             </thead>
                             <tbody>

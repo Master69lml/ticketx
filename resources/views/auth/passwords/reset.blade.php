@@ -37,7 +37,7 @@
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Reset password</p>
+    <p class="login-box-msg">{{ trans('passwords.reset_password') }}</p>
 
         <form role="form" method="POST" action="{{ url('/password/reset') }}">
             {!! csrf_field() !!}
@@ -45,7 +45,7 @@
             <input type="hidden" name="token" value="{{ $token }}">
 
             <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }} has-feedback">
-            <input type="email" name="email" value="{{ $email or old('email') }}" class="form-control" placeholder="Email"> 
+            <input type="email" name="email" value="{{ $email or old('email') }}" class="form-control" placeholder="{{ trans('auth.email') }}"> 
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 
                     @if ($errors->has('email'))
@@ -56,7 +56,7 @@
                 </div>
 
             <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }} has-feedback">
-                <input type="password" name="password" class="form-control" placeholder="Password">
+                <input type="password" name="password" class="form-control" placeholder="{{ trans('auth.password') }}">
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
 
                     @if ($errors->has('password'))
@@ -68,7 +68,7 @@
 
 
             <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }} has-feedback">
-                <input type="password" name="password_confirmation" class="form-control" placeholder="Confirm Password">
+                <input type="password" name="password_confirmation" class="form-control" placeholder="{{ trans('auth.confirm_password') }}">
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
 
                     @if ($errors->has('password_confirmation'))
@@ -80,11 +80,11 @@
 
                   <div class="row">
                     <div class="col-xs-6">
-                      <button type="submit" class="btn btn-primary btn-block btn-flat">Reset password</button>
+                      <button type="submit" class="btn btn-primary btn-block btn-flat">{{ trans('passwords.reset_password') }}</button>
                     </div>
                     <!-- /.col -->
                   </div>
-                    <a href="{{ url('/') }}">Return home</a><br>
+                    <a href="{{ url('/') }}">{{ trans('texts.return_home') }}</a><br>
         </form>
                    </div>
                   <!-- /.login-box-body -->

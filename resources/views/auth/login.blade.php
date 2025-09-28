@@ -37,12 +37,12 @@
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Sign in to start your session</p>
+    <p class="login-box-msg">{{ trans('auth.sign_in_session') }}</p>
 
          <form role="form" method="POST" action="{{ route('auth.login') }}" _lpchecked="1">
             {!! csrf_field() !!}
             <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }} has-feedback">
-            <input type="text" name="email" id="email" class="form-control" placeholder="Email"> 
+            <input type="text" name="email" id="email" class="form-control" placeholder="{{ trans('auth.email') }}"> 
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                     @if ($errors->has('email'))
                         <span class="help-block">{{ $errors->first('email') }}</span>
@@ -50,7 +50,7 @@
                 </div>
                 
             <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }} has-feedback">
-                <input type="password" name="password" id="password" class="form-control" placeholder="Password">
+                <input type="password" name="password" id="password" class="form-control" placeholder="{{ trans('auth.password') }}">
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     @if ($errors->has('password'))
                         <span class="help-block">{{ $errors->first('password') }}</span>
@@ -61,31 +61,31 @@
                     <div class="col-xs-8">
                       <div class="checkbox icheck">
                         <label>
-                          <input type="checkbox"> Remember Me
+                          <input type="checkbox"> {{ trans('auth.remember_me') }}
                         </label>
                       </div>
                     </div>
                     <!-- /.col -->
                     <div class="col-xs-4">
-                      <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                      <button type="submit" class="btn btn-primary btn-block btn-flat">{{ trans('auth.sign_in') }}</button>
                     </div>
                     <!-- /.col -->
                   </div>
                   
                     <div class="social-auth-links text-center">
-                      <p>- OR -</p>
-                        <a href="{{ url('/auth/facebook') }}" class="btn btn-block btn-social btn-facebook"><i class="fa fa-facebook"></i>Sign in with Facebook</a>
-                        <a href="{{ url('/auth/twitter') }}" class="btn btn-block btn-social btn-twitter"><i class="fa fa-twitter"></i>Sign in with Twitter</a>
-                        <a href="{{ url('/auth/google') }}" class="btn btn-block btn-social btn-google"><i class="fa fa-google-plus"></i>Sign in with Google</a>
-                        <a href="{{ url('/auth/github') }}" class="btn btn-block btn-social btn-github"><i class="fa fa-github"></i>Sign in with GitHub</a>                        
+                      <p>- {{ trans('texts.or') }} -</p>
+                        <a href="{{ url('/auth/facebook') }}" class="btn btn-block btn-social btn-facebook"><i class="fa fa-facebook"></i>{{ trans('auth.sign_in_facebook') }}</a>
+                        <a href="{{ url('/auth/twitter') }}" class="btn btn-block btn-social btn-twitter"><i class="fa fa-twitter"></i>{{ trans('auth.sign_in_twitter') }}</a>
+                        <a href="{{ url('/auth/google') }}" class="btn btn-block btn-social btn-google"><i class="fa fa-google-plus"></i>{{ trans('auth.sign_in_google') }}</a>
+                        <a href="{{ url('/auth/github') }}" class="btn btn-block btn-social btn-github"><i class="fa fa-github"></i>{{ trans('auth.sign_in_github') }}</a>                        
                     </div>
                     <!-- /.social-auth-links -->
 
                     </form>                
                 
-                    <a href="{{ url('/password/reset') }}">I forgot my password</a><br>
-                    <a href="{{ url('/signup') }}">Sign up for a new account</a><br>
-                    <a href="{{ url('/') }}">Return home</a><br>
+                    <a href="{{ url('/password/reset') }}">{{ trans('auth.forgot_password') }}</a><br>
+                    <a href="{{ url('/signup') }}">{{ trans('auth.sign_up_account') }}</a><br>
+                    <a href="{{ url('/') }}">{{ trans('texts.return_home') }}</a><br>
                   
                    </div>
                   <!-- /.login-box-body -->

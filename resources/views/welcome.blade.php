@@ -26,7 +26,8 @@
             @endif
         </header>
 
-        <!-- Marketing Icons Section -->
+        {{-- Marketing Icons Section --}}
+        {{-- 
         <div class="row">
 
             <div class="col-md-4">
@@ -63,6 +64,7 @@
                 </div>
             </div>
         </div>
+        --}}
         <!-- /.row -->
 
       </section> 

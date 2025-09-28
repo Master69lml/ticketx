@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'from' => ['address' => '', 'name' => ''],
+    'from' => ['address' => env('MAIL_FROM_ADDRESS', 'noreply@ticketx.local'), 'name' => env('MAIL_FROM_NAME', 'TicketX Support')],
 
     /*
     |--------------------------------------------------------------------------

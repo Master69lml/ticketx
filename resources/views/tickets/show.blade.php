@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'My tickets')
+@section('title', 'Mis tickets')
 
 @section('content')
 
@@ -10,7 +10,7 @@
       <section class="content-header">
         <h1>
           {{ site_name() }}
-          <small>My tickets</small>
+          <small>Mis tickets</small>
         </h1>
       </section>
       
@@ -24,8 +24,8 @@
             </div>
             <div class="box-body">
 
-                        <p>Categry: {{ $category->name }}</p>
-                        <p>Status: 
+                        <p>Categoría: {{ $category->name }}</p>
+                        <p>Estado: 
                                         @if ($status->id === $ticket->status_id)
                                             @if ($status->id === 1)
                                             <span class="label label-info"> {{ $status->name }}</span>
@@ -38,7 +38,7 @@
                                             @endif                                     
                                         @endif
                         </p>
-                        <p>Priority: 
+                        <p>Prioridad: 
                                         @if ($priority->id === $ticket->priority_id)
                                             @if ($priority->id === 1)
                                             <span class="bg-danger"> {{ $priority->name }}</span>
@@ -49,9 +49,9 @@
                                             @endif                                        
                                         @endif                        
                         </p>
-                        <p>Created: {{ $ticket->created_at->diffForHumans() }}</p>
-                        <p>Last Updated: {{ $ticket->updated_at->diffForHumans() }}</p>
-                        <p>Message: <i><h4>{!! $ticket->message !!}</h4></i></p>                        
+                        <p>Creado: {{ $ticket->created_at->diffForHumans() }}</p>
+                        <p>Última Actualización: {{ $ticket->updated_at->diffForHumans() }}</p>
+                        <p>Mensaje: <i><h4>{!! $ticket->message !!}</h4></i></p>                        
 
                     <hr>
                     
@@ -59,7 +59,7 @@
            <div class="box-body chat" id="chat-box">
 
                    @if ($comments->isEmpty())
-                        <p>There is no comments yet</p>
+                        <p>No hay comentarios aún</p>
                     @else
 
             @foreach ($comments as $comment)   
@@ -90,7 +90,7 @@
 @if ($ticket->status_id === 3)
                         <form action="{{ url('reopen/' . $ticket->ticket_id) }}" method="POST" class="form">
                             {!! csrf_field() !!}
-                            <button type="submit" class="btn bg-purple">Reopen</button>
+                            <button type="submit" class="btn bg-purple">Reabrir</button>
                             </form>            
 @else
 
@@ -109,7 +109,7 @@
                             </div>
                     
                             <div class="form-group">
-                                <button type="submit" class="btn bg-purple">Publish comment</button>
+                                <button type="submit" class="btn bg-purple">Publicar comentario</button>
                             </div>
                         </form>
           </div>

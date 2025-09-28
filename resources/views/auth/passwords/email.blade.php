@@ -37,12 +37,12 @@
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Reset password</p>
+    <p class="login-box-msg">{{ trans('passwords.reset_password') }}</p>
 
          <form role="form" method="POST" action="{{ url('/password/email') }}" _lpchecked="1">
             {!! csrf_field() !!}
             <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }} has-feedback">
-            <input type="email" name="email" id="email" value="{{ old('email') }}" class="form-control" placeholder="Email"> 
+            <input type="email" name="email" id="email" value="{{ old('email') }}" class="form-control" placeholder="{{ trans('auth.email') }}"> 
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                     @if ($errors->has('email'))
                         <span class="help-block">{{ $errors->first('email') }}</span>
@@ -51,11 +51,11 @@
 
                   <div class="row">
                     <div class="col-xs-8">
-                      <button type="submit" class="btn btn-primary btn-block btn-flat">Send password reset link</button>
+                      <button type="submit" class="btn btn-primary btn-block btn-flat">{{ trans('passwords.send_reset_link') }}</button>
                     </div>
                     <!-- /.col -->
                   </div>
-                    <a href="{{ url('/') }}">Return home</a><br>
+                    <a href="{{ url('/') }}">{{ trans('texts.return_home') }}</a><br>
         </form>
                    </div>
                   <!-- /.login-box-body -->

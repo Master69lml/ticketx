@@ -1,0 +1,185 @@
+@startuml Diccionario de Datos - Sistema TicketX
+
+title Diccionario de Datos - Sistema TicketX\nTablas Principales del Sistema
+
+' Configuración de estilos
+skinparam backgroundColor #FEFEFE
+skinparam defaultFontName Arial
+skinparam shadowing false
+
+' ============================================
+' TABLA: USERS (USUARIOS)
+' ============================================
+
+package "**TABLA: users**" #E3F2FD {
+  note as N1
+    **Descripción:** Almacena la información de todos los usuarios del sistema.
+    Incluye datos personales y credenciales para autenticación local y OAuth.
+    **Propósito:** Gestionar usuarios, roles y autenticación del sistema.
+  end note
+  
+  class users {
+    **Campo** | **Tipo** | **Descripción**
+    --
+    id | INT (PK) | Identificador único del usuario
+    fullname | VARCHAR(255) | Nombre completo del usuario
+    username | VARCHAR(255) UNIQUE | Nombre de usuario para login
+    email | VARCHAR(255) UNIQUE | Correo electrónico del usuario
+    password | VARCHAR(60) | Contraseña encriptada (bcrypt)
+    gender | CHAR(1) | Género del usuario (M/F)
+    location | TEXT | Ubicación o dirección del usuario
+    website | TEXT | Sitio web personal del usuario
+    provider | VARCHAR(255) | Proveedor OAuth (github, facebook, twitter, google)
+    oauth_token | VARCHAR(255) | Token de acceso OAuth
+    oauth_token_secret | VARCHAR(255) | Token secreto OAuth
+    provider_id | VARCHAR(255) UNIQUE | ID del usuario en el proveedor OAuth
+    avatar | VARCHAR(255) | URL de la foto de perfil
+    remember_token | VARCHAR(100) | Token para "recordar sesión"
+    created_at | TIMESTAMP | Fecha de creación del registro
+    updated_at | TIMESTAMP | Fecha de última actualización
+  }
+}
+
+' ============================================
+' TABLA: TICKETS
+' ============================================
+
+package "**TABLA: tickets**" #FFF3E0 {
+  note as N2
+    **Descripción:** Tabla principal del sistema que almacena todas las solicitudes
+    de soporte (tickets) creadas por los usuarios.
+    **Propósito:** Gestionar el ciclo de vida completo de los tickets de soporte.
+  end note
+  
+  class tickets {
+    **Campo** | **Tipo** | **Descripción**
+    --
+    id | INT (PK) | Identificador único del ticket
+    user_id | INT (FK) | ID del usuario que creó el ticket
+    category_id | INT (FK) | ID de la categoría del ticket
+    ticket_id | VARCHAR(255) UNIQUE | Código único del ticket (ej: ABC12345XYZ)
+    title | VARCHAR(255) | Título o asunto del ticket
+    priority_id | INT (FK) | ID de la prioridad asignada
+    message | TEXT | Descripción detallada del problema o solicitud
+    status_id | INT (FK) | ID del estado actual del ticket
+    created_at | TIMESTAMP | Fecha de creación del ticket
+    updated_at | TIMESTAMP | Fecha de última actualización
+    ..
+    **Relaciones:**
+    → users(id) | Creado por usuario
+    → categories(id) | Pertenece a categoría
+    → priorities(id) | Tiene prioridad
+    → statuses(id) | Tiene estado actual
+  }
+}
+
+' ============================================
+' TABLA: COMMENTS (COMENTARIOS)
+' ============================================
+
+package "**TABLA: comments**" #E8F5E9 {
+  note as N3
+    **Descripción:** Almacena todos los comentarios y respuestas realizados
+    en los tickets por usuarios y personal de soporte.
+    **Propósito:** Mantener la comunicación y seguimiento de cada ticket.
+  end note
+  
+  class comments {
+    **Campo** | **Tipo** | **Descripción**
+    --
+    id | INT (PK) | Identificador único del comentario
+    ticket_id | INT (FK) | ID del ticket al que pertenece
+    user_id | INT (FK) | ID del usuario que escribió el comentario
+    comment | TEXT | Contenido del comentario o respuesta
+    created_at | TIMESTAMP | Fecha de creación del comentario
+    updated_at | TIMESTAMP | Fecha de última edición
+    ..
+    **Relaciones:**
+    → tickets(id) | Pertenece a ticket
+    → users(id) | Escrito por usuario
+  }
+}
+
+' ============================================
+' TABLA: ROLES
+' ============================================
+
+package "**TABLA: roles**" #F3E5F5 {
+  note as N4
+    **Descripción:** Define los diferentes roles o perfiles de usuario en el sistema.
+    Permite asignar diferentes niveles de acceso y permisos.
+    **Propósito:** Control de acceso basado en roles (RBAC).
+  end note
+  
+  class roles {
+    **Campo** | **Tipo** | **Descripción**
+    --
+    id | INT (PK) | Identificador único del rol
+    name | VARCHAR(255) UNIQUE | Nombre interno del rol (admin, moderator, agent)
+    display_name | VARCHAR(255) | Nombre visible del rol para mostrar
+    description | VARCHAR(255) | Descripción detallada del rol
+    created_at | TIMESTAMP | Fecha de creación del rol
+    updated_at | TIMESTAMP | Fecha de última actualización
+    ..
+    **Roles Predefinidos:**
+    • Admin | Administrador con acceso completo
+    • Moderator | Moderador de usuarios y tickets
+    • Agent | Agente de soporte técnico
+  }
+}
+
+' ============================================
+' TABLA: PERMISSIONS (PERMISOS)
+' ============================================
+
+package "**TABLA: permissions**" #FCE4EC {
+  note as N5
+    **Descripción:** Define los permisos específicos que se pueden asignar a los roles.
+    Permite control granular de funcionalidades del sistema.
+    **Propósito:** Gestionar permisos individuales para control de acceso.
+  end note
+  
+  class permissions {
+    **Campo** | **Tipo** | **Descripción**
+    --
+    id | INT (PK) | Identificador único del permiso
+    name | VARCHAR(255) UNIQUE | Nombre interno del permiso (slug)
+    display_name | VARCHAR(255) | Nombre visible del permiso
+    description | VARCHAR(255) | Descripción del permiso y su alcance
+    created_at | TIMESTAMP | Fecha de creación del permiso
+    updated_at | TIMESTAMP | Fecha de última actualización
+    ..
+    **Permisos Predefinidos:**
+    • view-backend | Acceso al panel administrativo
+    • manage-tickets | Gestionar tickets del sistema
+    • manage-users | Administrar usuarios
+    • manage-roles | Administrar roles
+    • manage-permissions | Administrar permisos
+    • manage-settings | Configurar el sistema
+  }
+}
+
+' ============================================
+' INFORMACIÓN ADICIONAL
+' ============================================
+
+legend top left
+  **DICCIONARIO DE DATOS - SISTEMA TICKETX**
+  
+  **Convenciones:**
+  • PK = Primary Key (Clave Primaria)
+  • FK = Foreign Key (Clave Foránea)
+  • UNIQUE = Valor único en la tabla
+  • TIMESTAMP = Fecha y hora automática
+  
+  **Motor de Base de Datos:** MySQL / MariaDB
+  **Codificación:** UTF-8
+  **Framework:** Laravel 5.2
+  
+  **Fecha de Generación:** 16 de Octubre de 2025
+  **Versión del Sistema:** 1.0
+endlegend
+
+footer Generado automáticamente - Sistema TicketX
+
+@enduml

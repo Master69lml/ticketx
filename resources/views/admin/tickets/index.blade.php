@@ -40,15 +40,15 @@
                         <table class="table table-hover" id="tickettable">
                             <thead>
                                 <tr>
-                                    <th>Ticket ID</th>
-                                    <th>Title</th>
-                                    <th>User</th>
-                                    <th>Comments</th>
-                                    <th>Category</th>
-                                    <th>Status</th>
-                                    <th>Priority</th>
-                                    <th>Created</th>
-                                    <th>Last Updated</th>
+                                    <th>ID Ticket</th>
+                                    <th>Título</th>
+                                    <th>Usuario</th>
+                                    <th>Comentarios</th>
+                                    <th>Categoría</th>
+                                    <th>Estado</th>
+                                    <th>Prioridad</th>
+                                    <th>Creado</th>
+                                    <th>Última Actualización</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -114,7 +114,22 @@
  <script>
    $(function () {
      $("#tickettable").DataTable({
-         "order": [[ 0, "asc" ]]
+         "order": [[ 0, "asc" ]],
+         "language": {
+             "lengthMenu": "Mostrar _MENU_ entradas",
+             "zeroRecords": "No se encontraron resultados",
+             "info": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+             "infoEmpty": "Mostrando 0 a 0 de 0 entradas",
+             "infoFiltered": "(filtrado de _MAX_ entradas totales)",
+             "search": "Buscar:",
+             "paginate": {
+                 "first": "Primero",
+                 "last": "Último",
+                 "next": "Siguiente",
+                 "previous": "Anterior"
+             },
+             "emptyTable": "No hay datos disponibles en la tabla"
+         }
      });
    });
  </script>  

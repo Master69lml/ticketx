@@ -29,6 +29,7 @@ return [
     'create_account' => 'Crear Cuenta',
     'forgot_password' => 'Olvidé mi contraseña',
     'sign_up_account' => 'Registrarse para una nueva cuenta',
+    'sign_in_account' => 'Ya tengo una cuenta',
     'sign_in_session' => 'Inicia sesión para comenzar tu sesión',
     
     // Social login

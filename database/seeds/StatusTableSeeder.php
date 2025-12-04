@@ -13,19 +13,19 @@ class StatusTableSeeder extends Seeder
     public function run()
     {
         $createStatus = new Status();
-        $createStatus->name = 'Open';
+        $createStatus->name = 'Abierto';
         $createStatus->save();
 
         $createStatus = new Status();
-        $createStatus->name = 'In Progress';
+        $createStatus->name = 'En Progreso';
         $createStatus->save();
 
         $createStatus = new Status();
-        $createStatus->name = 'Closed';
+        $createStatus->name = 'Cerrado';
         $createStatus->save();
 
         $createStatus = new Status();
-        $createStatus->name = 'Reopened';
+        $createStatus->name = 'Reabierto';
         $createStatus->save();
     }
 }

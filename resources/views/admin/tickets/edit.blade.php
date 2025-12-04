@@ -22,7 +22,7 @@
 
           <div class="box box-danger">
             <div class="box-header with-border">
-                <h3 class="box-title"><i class="fa fa-ticket"> Edit Ticket</i></h3>
+                <h3 class="box-title"><i class="fa fa-ticket"> Editar Ticket</i></h3>
             </div>
             <div class="box-body">
 
@@ -30,23 +30,23 @@
                         {!! csrf_field() !!}
 
                         <div class="form-group">
-                            <strong>Category:</strong>
+                            <strong>Categoría:</strong>
                                         {{ Form::select('category',$categories,$tickets->category_id,['class'=>'form-control'])}}
                                     </div>
 
                         <div class="form-group">
-                            <strong>Priority:</strong>
+                            <strong>Prioridad:</strong>
                                         {{ Form::select('priority',$prioritys,$tickets->priority_id,['class'=>'form-control'])}}
                                     </div>
 
                         <div class="form-group">
-                          <strong>Status:</strong>
+                          <strong>Estado:</strong>
                                 {{ Form::select('status',$statuses,$tickets->status_id,['class'=>'form-control'])}}
                                     </div>
 
                         <div class="form-group">
                                 <button type="submit" class="btn bg-purple">
-                                    <i class="fa fa-btn fa-ticket"></i> Edit Ticket
+                                    <i class="fa fa-btn fa-ticket"></i> Editar Ticket
                                 </button>
                             </div>
                         </div>

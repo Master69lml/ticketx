@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Auth;
-use Cloudder;
 use Hash;
 use Illuminate\Http\Request;
 
@@ -42,12 +41,25 @@ class AccountController extends Controller
             'file_name'     => 'required|mimes:jpeg,bmp,png|between:1,7000',
         ]);
 
-        $filename = $request->file('file_name')->getRealPath();
+        // Obtener el archivo subido
+        $file = $request->file('file_name');
+        
+        // Generar un nombre único para el archivo
+        $filename = time() . '_' . $this->user->id . '.' . $file->getClientOriginalExtension();
+        
+        // Mover el archivo a la carpeta public/uploads/avatars
+        $file->move(public_path('uploads/avatars'), $filename);
+        
+        // Construir la URL del avatar
+        $fileUrl = url('uploads/avatars/' . $filename);
 
-        Cloudder::upload($filename, null);
-        list($width, $height) = getimagesize($filename);
-
-        $fileUrl = Cloudder::show(Cloudder::getPublicId(), ['width' => $width, 'height' => $height]);
+        // Eliminar avatar anterior si existe y no es gravatar
+        if ($this->user->avatar && strpos($this->user->avatar, 'uploads/avatars') !== false) {
+            $oldFile = public_path(parse_url($this->user->avatar, PHP_URL_PATH));
+            if (file_exists($oldFile)) {
+                @unlink($oldFile);
+            }
+        }
 
         $this->user->update(['avatar' => $fileUrl]);
 

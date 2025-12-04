@@ -14,7 +14,7 @@ class SettingsTableSeeder extends Seeder
         \DB::table('settings')->insert([
             0 => [
                 'id'         => 1,
-                'site_name'  => 'TicketX',
+                'site_name'  => 'TicketMV',
                 'site_url'   => 'http://example.com',
                 'email_to'   => 'admin@example.com',
                 'email_from' => 'admin@example.com',

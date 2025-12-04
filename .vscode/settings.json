@@ -1,0 +1,10 @@
+{
+    "plantuml.render": "Local",
+    "plantuml.jarPath": "",
+    "plantuml.commandArgs": [
+        "-DGRAPHVIZ_DOT=/usr/bin/dot"
+    ],
+    "plantuml.exportOutDir": "diagrams/export",
+    "plantuml.exportFormat": "png",
+    "plantuml.exportSubFolder": false
+}

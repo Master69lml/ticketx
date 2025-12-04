@@ -33,23 +33,23 @@
                             
                                     {!! csrf_field() !!}      
                                     
-                                    <p>Message: <i><h4>{!! $ticket->message !!}</h4></i></p>
-                                    <p>Category: {{ Form::select('category',$categories,$ticket->category_id,['class'=>'form-control'])}}</p>
-                                    <p>Status: {{ Form::select('status',$statuses,$ticket->status_id,['class'=>'form-control'])}}</p>
-                                    <p>Priority:{{ Form::select('priority',$prioritys,$ticket->priority_id,['class'=>'form-control'])}}</p>
-                                    <p>Created: {{ $ticket->created_at->diffForHumans() }}</p>
-                                    <p>Last Updated: {{ $ticket->updated_at->diffForHumans() }}</p>
+                                    <p><strong>Mensaje:</strong> <i><h4>{!! $ticket->message !!}</h4></i></p>
+                                    <p><strong>Categoría:</strong> {{ Form::select('category',$categories,$ticket->category_id,['class'=>'form-control'])}}</p>
+                                    <p><strong>Estado:</strong> {{ Form::select('status',$statuses,$ticket->status_id,['class'=>'form-control'])}}</p>
+                                    <p><strong>Prioridad:</strong> {{ Form::select('priority',$prioritys,$ticket->priority_id,['class'=>'form-control'])}}</p>
+                                    <p><strong>Creado:</strong> {{ $ticket->created_at->diffForHumans() }}</p>
+                                    <p><strong>Última Actualización:</strong> {{ $ticket->updated_at->diffForHumans() }}</p>
                                     
                         <div class="row">
                             <div class="col-md-6">
-                                <button type="submit" class="btn bg-purple"><i class="fa fa-btn fa-ticket"></i> Update Ticket</button>   
+                                <button type="submit" class="btn bg-purple"><i class="fa fa-btn fa-ticket"></i> Actualizar Ticket</button>   
                                {!! Form::close() !!}   
                                
                             </div>
                             
                             <div class="col-md-6">               
                                     {!! Form::open(['method' => 'DELETE','route' => ['managetickets.destroy', $ticket->ticket_id],'style'=>'display:inline', 'class'=>'deletetickets']) !!}
-                                    {{ Form::button('<i class="fa fa-remove"></i> Delete', array('class'=>'btn btn-danger pull-right', 'type'=>'submit')) }}
+                                    {{ Form::button('<i class="fa fa-remove"></i> Eliminar', array('class'=>'btn btn-danger pull-right', 'type'=>'submit')) }}
                                     {!! Form::close() !!}                                
                             </div>
                         </div>    
@@ -60,13 +60,13 @@
     <div class="col-md-7">
           <div class="box box-default">
             <div class="box-header with-border">
-              <h3 class="box-title"><i class="fa fa-comments"> Comments</i></h3>
+              <h3 class="box-title"><i class="fa fa-comments"> Comentarios</i></h3>
             </div>
 
            <div class="box-body chat" id="chat-box">
 
                    @if ($comments->isEmpty())
-                        <p>There is no comments yet</p>
+                        <p>Aún no hay comentarios</p>
                     @else
 
             @foreach ($comments as $comment)   
@@ -95,7 +95,7 @@
                 @if ($ticket->status_id === 3)
                     <form action="{{ url('reopen/' . $ticket->ticket_id) }}" method="POST" class="form">
                       {!! csrf_field() !!}
-                         <button type="submit" class="btn bg-purple">Reopen</button>
+                         <button type="submit" class="btn bg-purple">Reabrir</button>
                     </form>            
                 @else
             
@@ -114,7 +114,7 @@
                                         </div>
                                 
                                         <div class="form-group">
-                                            <button type="submit" class="btn bg-purple">Publish comment</button>
+                                            <button type="submit" class="btn bg-purple">Publicar comentario</button>
                                         </div>
                                     </form>
                         </div>

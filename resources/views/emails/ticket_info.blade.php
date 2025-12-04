@@ -303,7 +303,7 @@ a {
 				<table class="main" width="100%" cellpadding="0" cellspacing="0">
 					<tr>
 						<td class="alert alert-xticket">
-                        Thank you {{ ucfirst($user->fullname) }} for contacting our support team. A support ticket has been opened for you. You will be notified when a response is made by email. The details of your ticket are shown below
+                        Gracias {{ ucfirst($user->fullname) }} por contactar a nuestro equipo de soporte. Se ha abierto un ticket de soporte para usted. Será notificado por correo electrónico cuando reciba una respuesta. Los detalles de su ticket se muestran a continuación.
 						</td>
 					</tr>
 					<tr>
@@ -311,19 +311,25 @@ a {
 							<table width="100%" cellpadding="0" cellspacing="0">
 								<tr>
 									<td class="content-block">
-										Title: <strong>{{ $ticket->title }}</strong></br>
-										Priority: <strong>{{ $ticket->priority->name }}</strong></br>
-										Status: <strong>{{ $ticket->status->name }}</strong>
+										<strong>Título:</strong> {{ $ticket->title }}</br>
+										<strong>Prioridad:</strong> {{ $ticket->priority->name }}</br>
+										<strong>Estado:</strong> {{ $ticket->status->name }}
 									</td>
 								</tr>
 								<tr>
 									<td class="content-block">
-										<a href="{{ url('tickets/'. $ticket->ticket_id) }}" class="btn-primary">View my ticket</a>
+										<a href="{{ url('tickets/'. $ticket->ticket_id) }}" class="btn-primary">Ver mi ticket</a>
+									</td>
+								</tr>
+								<tr>
+									<td class="content-block" style="color: #999; font-size: 12px; font-style: italic;">
+										<strong>Nota:</strong> No responder directamente a este correo. Por favor, acceda al sistema para ver las actualizaciones de su ticket.
 									</td>
 								</tr>
 								<tr>
 									<td class="content-block">
-										- {{ site_name() }} Team
+										Atentamente,<br/>
+										<strong>Equipo de Soporte MV Aceros</strong>
 									</td>
 								</tr>
 							</table>

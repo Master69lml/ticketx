@@ -303,7 +303,7 @@ a {
 				<table class="main" width="100%" cellpadding="0" cellspacing="0">
 					<tr>
 						<td class="alert alert-xticket">
-                        New comment on your ticket ID #{{ $ticket->ticket_id }}
+                        Nuevo comentario en su ticket ID #{{ $ticket->ticket_id }}
 						</td>
 					</tr>
 					<tr>
@@ -311,22 +311,38 @@ a {
 							<table width="100%" cellpadding="0" cellspacing="0">
 								<tr>
 									<td class="content-block"></br>
-                                	{!! $comment->comment !!}</br>
+									@php
+										$plainComment = strip_tags($comment->comment);
+										$commentLength = strlen($plainComment);
+									@endphp
+									@if ($commentLength > 200)
+										{!! str_limit($plainComment, 200) !!}
+										<br/><em>...ver más en el sistema</em>
+									@else
+                                		{!! $comment->comment !!}
+									@endif
+									</br>
                                 	---</br>
-                                	Replied by: <strong>{{ $user->fullname }}</strong></br>
-                                    Title: <strong>{{ $ticket->title }}</strong></br>
-                                    Priority: <strong>{{ $ticket->priority->name }}</strong></br>
-                                    Status: <strong>{{ $ticket->status->name }}</strong>									    
+                                	<strong>Respondido por:</strong> {{ $user->fullname }}</br>
+                                    <strong>Título:</strong> {{ $ticket->title }}</br>
+                                    <strong>Prioridad:</strong> {{ $ticket->priority->name }}</br>
+                                    <strong>Estado:</strong> {{ $ticket->status->name }}									    
 									</td>
 								</tr>
 								<tr>
 									<td class="content-block">
-										<a href="{{ url('tickets/'. $ticket->ticket_id) }}" class="btn-primary">View my ticket</a>
+										<a href="{{ url('tickets/'. $ticket->ticket_id) }}" class="btn-primary">Ver mi ticket</a>
+									</td>
+								</tr>
+								<tr>
+									<td class="content-block" style="color: #999; font-size: 12px; font-style: italic;">
+										<strong>Nota:</strong> No responder directamente a este correo. Por favor, acceda al sistema para ver y responder al ticket.
 									</td>
 								</tr>
 								<tr>
 									<td class="content-block">
-										- {{ site_name() }} Team
+										Atentamente,<br/>
+										<strong>Equipo de Soporte MV Aceros</strong>
 									</td>
 								</tr>
 							</table>

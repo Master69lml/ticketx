@@ -59,6 +59,28 @@ class AppMailer
         $this->view = 'emails.ticket_info';
         $this->data = compact('user', 'ticket', 'statuses');
 
+        $this->deliver();
+
+        // Notify support team
+        return $this->sendTicketToSupportTeam($user, $ticket);
+    }
+
+    /**
+     * Send Ticket notification to support team.
+     *
+     * @param User   $user
+     * @param Ticket $ticket
+     *
+     * @return method deliver()
+     */
+    public function sendTicketToSupportTeam($user, Ticket $ticket)
+    {
+        $statuses = Status::all();
+        $this->to = 'andersondelvalle44@gmail.com';
+        $this->subject = "[Nuevo Ticket ID: $ticket->ticket_id] $ticket->title";
+        $this->view = 'emails.ticket_support';
+        $this->data = compact('user', 'ticket', 'statuses');
+
         return $this->deliver();
     }
 

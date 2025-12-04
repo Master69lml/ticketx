@@ -58,7 +58,7 @@
                 </div>
                             
                   <div class="row">
-                    <div class="col-xs-8">
+                    <div class="col-xs-12">
                       <div class="checkbox icheck">
                         <label>
                           <input type="checkbox"> {{ trans('auth.remember_me') }}
@@ -66,12 +66,17 @@
                       </div>
                     </div>
                     <!-- /.col -->
-                    <div class="col-xs-4">
+                  </div>
+                  
+                  <div class="row">
+                    <div class="col-xs-12">
                       <button type="submit" class="btn btn-primary btn-block btn-flat">{{ trans('auth.sign_in') }}</button>
                     </div>
                     <!-- /.col -->
                   </div>
                   
+                    {{-- Opciones de login con redes sociales - OCULTAS --}}
+                    {{--
                     <div class="social-auth-links text-center">
                       <p>- {{ trans('texts.or') }} -</p>
                         <a href="{{ url('/auth/facebook') }}" class="btn btn-block btn-social btn-facebook"><i class="fa fa-facebook"></i>{{ trans('auth.sign_in_facebook') }}</a>
@@ -80,6 +85,7 @@
                         <a href="{{ url('/auth/github') }}" class="btn btn-block btn-social btn-github"><i class="fa fa-github"></i>{{ trans('auth.sign_in_github') }}</a>                        
                     </div>
                     <!-- /.social-auth-links -->
+                    --}}
 
                     </form>                
                 

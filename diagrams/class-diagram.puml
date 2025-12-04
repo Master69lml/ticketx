@@ -1,0 +1,210 @@
+@startuml TicketX Class Diagram
+
+!define ENTITY_COLOR #E3F2FD
+!define RELATION_COLOR #90CAF9
+
+' Configuración del diagrama
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam linetype ortho
+
+' ============================================
+' CLASES PRINCIPALES
+' ============================================
+
+class User <<Entity>> ENTITY_COLOR {
+  - id : int
+  - fullname : string
+  - username : string
+  - email : string
+  - password : string
+  - gender : char
+  - location : text
+  - website : text
+  - provider : string
+  - oauth_token : string
+  - oauth_token_secret : string
+  - provider_id : string
+  - avatar : string
+  - remember_token : string
+  - created_at : timestamp
+  - updated_at : timestamp
+  --
+  + getAvatarUrl() : string
+  + getAccessToken() : string
+  + getAccessTokenSecret() : string
+}
+
+class Role <<Entity>> ENTITY_COLOR {
+  - id : int
+  - name : string
+  - display_name : string
+  - description : string
+  - created_at : timestamp
+  - updated_at : timestamp
+}
+
+class Permission <<Entity>> ENTITY_COLOR {
+  - id : int
+  - name : string
+  - display_name : string
+  - description : string
+  - created_at : timestamp
+  - updated_at : timestamp
+}
+
+class Ticket <<Entity>> ENTITY_COLOR {
+  - id : int
+  - user_id : int
+  - category_id : int
+  - ticket_id : string
+  - title : string
+  - priority_id : int
+  - message : text
+  - status_id : int
+  - created_at : timestamp
+  - updated_at : timestamp
+  --
+  + category() : Category
+  + priority() : Priority
+  + status() : Status
+  + comments() : Comment[]
+  + user() : User
+}
+
+class Comment <<Entity>> ENTITY_COLOR {
+  - id : int
+  - ticket_id : int
+  - user_id : int
+  - comment : text
+  - created_at : timestamp
+  - updated_at : timestamp
+  --
+  + ticket() : Ticket
+  + user() : User
+}
+
+class Category <<Entity>> ENTITY_COLOR {
+  - id : int
+  - name : string
+  - created_at : timestamp
+  - updated_at : timestamp
+  --
+  + tickets() : Ticket[]
+}
+
+class Priority <<Entity>> ENTITY_COLOR {
+  - id : int
+  - name : string
+  - created_at : timestamp
+  - updated_at : timestamp
+  --
+  + tickets() : Ticket[]
+}
+
+class Status <<Entity>> ENTITY_COLOR {
+  - id : int
+  - name : string
+  - created_at : timestamp
+  - updated_at : timestamp
+  --
+  + tickets() : Ticket[]
+}
+
+class Settings <<Entity>> ENTITY_COLOR {
+  - id : int
+  - site_name : string
+  - site_url : string
+  - email_from : string
+  - email_to : string
+  - created_at : timestamp
+  - updated_at : timestamp
+}
+
+' ============================================
+' CLASES BASE (Laravel/Entrust)
+' ============================================
+
+class Authenticatable <<Framework>> {
+  {abstract}
+}
+
+class EntrustRole <<Framework>> {
+  {abstract}
+}
+
+class EntrustPermission <<Framework>> {
+  {abstract}
+}
+
+' ============================================
+' RELACIONES DE HERENCIA
+' ============================================
+
+Authenticatable <|-- User : extends
+EntrustRole <|-- Role : extends
+EntrustPermission <|-- Permission : extends
+
+' ============================================
+' RELACIONES ENTRE ENTIDADES
+' ============================================
+
+' User relationships
+User "1" -- "*" Ticket : creates >
+User "1" -- "*" Comment : writes >
+User "*" -- "*" Role : has roles >
+
+' Role relationships
+Role "*" -- "*" Permission : has permissions >
+
+' Ticket relationships
+Ticket "*" -- "1" User : belongs to <
+Ticket "*" -- "1" Category : categorized by <
+Ticket "*" -- "1" Priority : has priority <
+Ticket "*" -- "1" Status : has status <
+Ticket "1" -- "*" Comment : has comments >
+
+' Comment relationships
+Comment "*" -- "1" Ticket : belongs to <
+Comment "*" -- "1" User : written by <
+
+' Category, Priority, Status relationships
+Category "1" -- "*" Ticket : contains >
+Priority "1" -- "*" Ticket : assigned to >
+Status "1" -- "*" Ticket : defines >
+
+' ============================================
+' NOTAS EXPLICATIVAS
+' ============================================
+
+note right of User
+  Usuario del sistema con 
+  autenticación local o OAuth
+  (GitHub, Facebook, Twitter, Google)
+end note
+
+note right of Ticket
+  Ticket de soporte con
+  ciclo de vida completo:
+  Abierto → En Progreso → 
+  Cerrado → Reabierto
+end note
+
+note right of Role
+  Roles predefinidos:
+  - Admin
+  - Moderator
+  - Agent
+end note
+
+note right of Permission
+  Permisos del sistema:
+  - view-backend
+  - manage-tickets
+  - manage-users
+  - manage-roles
+  - manage-permissions
+  - manage-settings
+end note
+
+@enduml

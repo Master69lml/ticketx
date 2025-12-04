@@ -1,0 +1,466 @@
+@startuml Diccionario de Datos Completo - Sistema TicketX
+
+title Diccionario de Datos Completo - Sistema TicketX\nTodas las Tablas del Sistema
+
+' Configuración de estilos
+skinparam backgroundColor #FEFEFE
+skinparam defaultFontName Arial
+skinparam shadowing false
+skinparam packageStyle rectangle
+
+' ============================================
+' TABLA 1: USERS (USUARIOS)
+' ============================================
+
+package "**TABLA 1: users**" #E3F2FD {
+  note as N1
+    **Descripción:** Almacena la información de todos los usuarios del sistema.
+    Incluye datos personales y credenciales para autenticación local y OAuth.
+    **Propósito:** Gestionar usuarios, roles y autenticación del sistema.
+    **Tipo de Tabla:** Entidad Principal
+  end note
+  
+  class users {
+    **Campo** | **Tipo** | **Nulo** | **Descripción**
+    ====
+    id | INT (PK) | NO | Identificador único del usuario (auto-incremental)
+    fullname | VARCHAR(255) | SÍ | Nombre completo del usuario
+    username | VARCHAR(255) UNIQUE | SÍ | Nombre de usuario para login
+    email | VARCHAR(255) UNIQUE | SÍ | Correo electrónico del usuario
+    password | VARCHAR(60) | SÍ | Contraseña encriptada con bcrypt
+    gender | CHAR(1) | SÍ | Género del usuario (M=Masculino, F=Femenino)
+    location | TEXT | SÍ | Ubicación o dirección física del usuario
+    website | TEXT | SÍ | URL del sitio web personal del usuario
+    provider | VARCHAR(255) | SÍ | Proveedor OAuth (github, facebook, twitter, google, instagram, linkedin)
+    oauth_token | VARCHAR(255) | SÍ | Token de acceso OAuth para autenticación externa
+    oauth_token_secret | VARCHAR(255) | SÍ | Token secreto OAuth (usado en Twitter)
+    provider_id | VARCHAR(255) UNIQUE | SÍ | ID único del usuario en el proveedor OAuth
+    avatar | VARCHAR(255) | SÍ | URL de la foto de perfil (Gravatar o upload)
+    remember_token | VARCHAR(100) | SÍ | Token para mantener sesión activa ("Remember Me")
+    created_at | TIMESTAMP | SÍ | Fecha y hora de creación del registro
+    updated_at | TIMESTAMP | SÍ | Fecha y hora de última actualización
+    ....
+    **Índices:**
+    • PRIMARY KEY (id)
+    • UNIQUE (username)
+    • UNIQUE (email)
+    • UNIQUE (provider_id)
+  }
+}
+
+' ============================================
+' TABLA 2: ROLES
+' ============================================
+
+package "**TABLA 2: roles**" #F3E5F5 {
+  note as N2
+    **Descripción:** Define los diferentes roles o perfiles de usuario en el sistema.
+    Implementa el patrón RBAC (Role-Based Access Control).
+    **Propósito:** Control de acceso basado en roles.
+    **Tipo de Tabla:** Catálogo
+  end note
+  
+  class roles {
+    **Campo** | **Tipo** | **Nulo** | **Descripción**
+    ====
+    id | INT (PK) | NO | Identificador único del rol (auto-incremental)
+    name | VARCHAR(255) UNIQUE | NO | Nombre interno del rol (slug: admin, moderator, agent)
+    display_name | VARCHAR(255) | SÍ | Nombre visible del rol para mostrar en interfaz
+    description | VARCHAR(255) | SÍ | Descripción detallada del rol y sus responsabilidades
+    created_at | TIMESTAMP | SÍ | Fecha de creación del rol
+    updated_at | TIMESTAMP | SÍ | Fecha de última actualización
+    ....
+    **Índices:**
+    • PRIMARY KEY (id)
+    • UNIQUE (name)
+    ....
+    **Valores Predefinidos:**
+    • Admin → Administrador con acceso completo al sistema
+    • Moderator → Moderador de usuarios y tickets
+    • Agent → Agente de soporte técnico
+  }
+}
+
+' ============================================
+' TABLA 3: PERMISSIONS (PERMISOS)
+' ============================================
+
+package "**TABLA 3: permissions**" #FCE4EC {
+  note as N3
+    **Descripción:** Define los permisos específicos que se pueden asignar a roles.
+    Permite control granular de funcionalidades del sistema.
+    **Propósito:** Gestionar permisos individuales para control de acceso.
+    **Tipo de Tabla:** Catálogo
+  end note
+  
+  class permissions {
+    **Campo** | **Tipo** | **Nulo** | **Descripción**
+    ====
+    id | INT (PK) | NO | Identificador único del permiso (auto-incremental)
+    name | VARCHAR(255) UNIQUE | NO | Nombre interno del permiso (slug)
+    display_name | VARCHAR(255) | SÍ | Nombre visible del permiso para interfaz
+    description | VARCHAR(255) | SÍ | Descripción del permiso y su alcance
+    created_at | TIMESTAMP | SÍ | Fecha de creación del permiso
+    updated_at | TIMESTAMP | SÍ | Fecha de última actualización
+    ....
+    **Índices:**
+    • PRIMARY KEY (id)
+    • UNIQUE (name)
+    ....
+    **Permisos del Sistema:**
+    • view-backend → Acceso al panel administrativo
+    • manage-tickets → Gestionar tickets del sistema
+    • manage-users → Administrar usuarios
+    • manage-roles → Administrar roles
+    • manage-permissions → Administrar permisos
+    • manage-settings → Configurar parámetros del sistema
+  }
+}
+
+' ============================================
+' TABLA 4: ROLE_USER (RELACIÓN MUCHOS A MUCHOS)
+' ============================================
+
+package "**TABLA 4: role_user**" #E1BEE7 {
+  note as N4
+    **Descripción:** Tabla pivote que relaciona usuarios con sus roles asignados.
+    Implementa relación muchos a muchos entre users y roles.
+    **Propósito:** Asignación de roles a usuarios.
+    **Tipo de Tabla:** Tabla Pivote (Many-to-Many)
+  end note
+  
+  class role_user {
+    **Campo** | **Tipo** | **Nulo** | **Descripción**
+    ====
+    user_id | INT (FK) | NO | ID del usuario (referencia a users.id)
+    role_id | INT (FK) | NO | ID del rol (referencia a roles.id)
+    ....
+    **Índices:**
+    • PRIMARY KEY (user_id, role_id) → Clave primaria compuesta
+    • FOREIGN KEY (user_id) → users(id) ON DELETE CASCADE
+    • FOREIGN KEY (role_id) → roles(id) ON DELETE CASCADE
+    ....
+    **Nota:** Un usuario puede tener múltiples roles y
+    un rol puede ser asignado a múltiples usuarios.
+  }
+}
+
+' ============================================
+' TABLA 5: PERMISSION_ROLE (RELACIÓN MUCHOS A MUCHOS)
+' ============================================
+
+package "**TABLA 5: permission_role**" #F8BBD0 {
+  note as N5
+    **Descripción:** Tabla pivote que relaciona roles con sus permisos.
+    Implementa relación muchos a muchos entre roles y permissions.
+    **Propósito:** Asignación de permisos a roles.
+    **Tipo de Tabla:** Tabla Pivote (Many-to-Many)
+  end note
+  
+  class permission_role {
+    **Campo** | **Tipo** | **Nulo** | **Descripción**
+    ====
+    permission_id | INT (FK) | NO | ID del permiso (referencia a permissions.id)
+    role_id | INT (FK) | NO | ID del rol (referencia a roles.id)
+    ....
+    **Índices:**
+    • PRIMARY KEY (permission_id, role_id) → Clave primaria compuesta
+    • FOREIGN KEY (permission_id) → permissions(id) ON DELETE CASCADE
+    • FOREIGN KEY (role_id) → roles(id) ON DELETE CASCADE
+    ....
+    **Nota:** Un rol puede tener múltiples permisos y
+    un permiso puede ser asignado a múltiples roles.
+  }
+}
+
+' ============================================
+' TABLA 6: TICKETS
+' ============================================
+
+package "**TABLA 6: tickets**" #FFF3E0 {
+  note as N6
+    **Descripción:** Tabla principal que almacena todas las solicitudes de soporte.
+    Núcleo del sistema de gestión de tickets.
+    **Propósito:** Gestionar el ciclo de vida completo de tickets de soporte.
+    **Tipo de Tabla:** Entidad Principal
+  end note
+  
+  class tickets {
+    **Campo** | **Tipo** | **Nulo** | **Descripción**
+    ====
+    id | INT (PK) | NO | Identificador único del ticket (auto-incremental)
+    user_id | INT (FK) | NO | ID del usuario que creó el ticket
+    category_id | INT (FK) | NO | ID de la categoría del ticket
+    ticket_id | VARCHAR(255) UNIQUE | NO | Código único alfanumérico del ticket (ej: XYZ123ABC)
+    title | VARCHAR(255) | NO | Título o asunto breve del ticket
+    priority_id | INT (FK) | NO | ID de la prioridad asignada al ticket
+    message | TEXT | NO | Descripción detallada del problema o solicitud
+    status_id | INT (FK) | NO | ID del estado actual del ticket
+    created_at | TIMESTAMP | SÍ | Fecha y hora de creación del ticket
+    updated_at | TIMESTAMP | SÍ | Fecha y hora de última actualización
+    ....
+    **Índices:**
+    • PRIMARY KEY (id)
+    • UNIQUE (ticket_id)
+    • FOREIGN KEY (user_id) → users(id) ON DELETE CASCADE
+    • FOREIGN KEY (category_id) → categories(id)
+    • FOREIGN KEY (priority_id) → priorities(id)
+    • FOREIGN KEY (status_id) → statuses(id)
+    ....
+    **Ciclo de Vida:**
+    Abierto (1) → En Progreso (2) → Cerrado (3) → Reabierto (4)
+  }
+}
+
+' ============================================
+' TABLA 7: COMMENTS (COMENTARIOS)
+' ============================================
+
+package "**TABLA 7: comments**" #E8F5E9 {
+  note as N7
+    **Descripción:** Almacena todos los comentarios y respuestas en los tickets.
+    Sistema de comunicación entre usuarios y soporte.
+    **Propósito:** Mantener la comunicación y seguimiento de cada ticket.
+    **Tipo de Tabla:** Entidad Dependiente
+  end note
+  
+  class comments {
+    **Campo** | **Tipo** | **Nulo** | **Descripción**
+    ====
+    id | INT (PK) | NO | Identificador único del comentario (auto-incremental)
+    ticket_id | INT (FK) | NO | ID del ticket al que pertenece el comentario
+    user_id | INT (FK) | NO | ID del usuario que escribió el comentario
+    comment | TEXT | NO | Contenido del comentario o respuesta
+    created_at | TIMESTAMP | SÍ | Fecha y hora de creación del comentario
+    updated_at | TIMESTAMP | SÍ | Fecha y hora de última edición del comentario
+    ....
+    **Índices:**
+    • PRIMARY KEY (id)
+    • FOREIGN KEY (ticket_id) → tickets(id) ON DELETE CASCADE
+    • FOREIGN KEY (user_id) → users(id)
+    ....
+    **Nota:** Los comentarios se eliminan automáticamente
+    cuando se elimina el ticket padre (CASCADE).
+  }
+}
+
+' ============================================
+' TABLA 8: CATEGORIES (CATEGORÍAS)
+' ============================================
+
+package "**TABLA 8: categories**" #FFEBEE {
+  note as N8
+    **Descripción:** Catálogo de categorías para clasificar los tickets.
+    Permite organizar tickets por tipo de problema o área.
+    **Propósito:** Clasificación y organización de tickets.
+    **Tipo de Tabla:** Catálogo
+  end note
+  
+  class categories {
+    **Campo** | **Tipo** | **Nulo** | **Descripción**
+    ====
+    id | INT (PK) | NO | Identificador único de la categoría (auto-incremental)
+    name | VARCHAR(255) | NO | Nombre de la categoría (ej: Técnico, Facturación, General)
+    created_at | TIMESTAMP | SÍ | Fecha de creación de la categoría
+    updated_at | TIMESTAMP | SÍ | Fecha de última actualización
+    ....
+    **Índices:**
+    • PRIMARY KEY (id)
+    ....
+    **Ejemplos de Categorías:**
+    • Soporte Técnico
+    • Facturación y Pagos
+    • Consultas Generales
+    • Reportes de Errores
+    • Solicitudes de Mejora
+  }
+}
+
+' ============================================
+' TABLA 9: PRIORITIES (PRIORIDADES)
+' ============================================
+
+package "**TABLA 9: priorities**" #FFF9C4 {
+  note as N9
+    **Descripción:** Catálogo de prioridades para clasificar la urgencia de tickets.
+    Define el nivel de importancia y tiempo de respuesta esperado.
+    **Propósito:** Gestión de prioridades de atención.
+    **Tipo de Tabla:** Catálogo
+  end note
+  
+  class priorities {
+    **Campo** | **Tipo** | **Nulo** | **Descripción**
+    ====
+    id | INT (PK) | NO | Identificador único de la prioridad (auto-incremental)
+    name | VARCHAR(255) | NO | Nombre de la prioridad (Baja, Media, Alta, Crítica)
+    created_at | TIMESTAMP | SÍ | Fecha de creación de la prioridad
+    updated_at | TIMESTAMP | SÍ | Fecha de última actualización
+    ....
+    **Índices:**
+    • PRIMARY KEY (id)
+    ....
+    **Niveles de Prioridad:**
+    • Baja → Problemas menores sin urgencia
+    • Media → Problemas normales de operación
+    • Alta → Problemas que afectan productividad
+    • Crítica → Problemas que bloquean el sistema
+  }
+}
+
+' ============================================
+' TABLA 10: STATUSES (ESTADOS)
+' ============================================
+
+package "**TABLA 10: statuses**" #C8E6C9 {
+  note as N10
+    **Descripción:** Catálogo de estados para el ciclo de vida de los tickets.
+    Define las diferentes etapas por las que pasa un ticket.
+    **Propósito:** Control del flujo de trabajo de tickets.
+    **Tipo de Tabla:** Catálogo
+  end note
+  
+  class statuses {
+    **Campo** | **Tipo** | **Nulo** | **Descripción**
+    ====
+    id | INT (PK) | NO | Identificador único del estado (auto-incremental)
+    name | VARCHAR(255) | NO | Nombre del estado del ticket
+    created_at | TIMESTAMP | SÍ | Fecha de creación del estado
+    updated_at | TIMESTAMP | SÍ | Fecha de última actualización
+    ....
+    **Índices:**
+    • PRIMARY KEY (id)
+    ....
+    **Estados del Sistema:**
+    1. Abierto → Ticket recién creado, pendiente de asignación
+    2. En Progreso → Ticket asignado y en proceso de resolución
+    3. Cerrado → Ticket resuelto y cerrado
+    4. Reabierto → Ticket cerrado que fue reabierto por el usuario
+  }
+}
+
+' ============================================
+' TABLA 11: SETTINGS (CONFIGURACIONES)
+' ============================================
+
+package "**TABLA 11: settings**" #E0F2F1 {
+  note as N11
+    **Descripción:** Almacena las configuraciones generales del sistema.
+    Tabla de configuración global con un solo registro.
+    **Propósito:** Gestionar parámetros y configuraciones del sistema.
+    **Tipo de Tabla:** Configuración (Singleton)
+  end note
+  
+  class settings {
+    **Campo** | **Tipo** | **Nulo** | **Descripción**
+    ====
+    id | INT (PK) | NO | Identificador único (siempre 1) (auto-incremental)
+    site_name | VARCHAR(255) | SÍ | Nombre del sitio web mostrado en la interfaz
+    site_url | VARCHAR(255) | SÍ | URL base del sitio web
+    email_from | VARCHAR(255) | SÍ | Dirección de correo para envío de notificaciones
+    email_to | VARCHAR(255) | SÍ | Dirección de correo para recepción de mensajes
+    created_at | TIMESTAMP | SÍ | Fecha de creación del registro
+    updated_at | TIMESTAMP | SÍ | Fecha de última actualización
+    ....
+    **Índices:**
+    • PRIMARY KEY (id)
+    ....
+    **Nota:** Esta tabla debe contener solo un registro (id=1)
+    con las configuraciones globales del sistema.
+  }
+}
+
+' ============================================
+' TABLA 12: PASSWORD_RESETS (RECUPERACIÓN DE CONTRASEÑA)
+' ============================================
+
+package "**TABLA 12: password_resets**" #FFF3E0 {
+  note as N12
+    **Descripción:** Almacena tokens temporales para recuperación de contraseñas.
+    Tokens de un solo uso con tiempo de expiración limitado.
+    **Propósito:** Gestionar el proceso de reset de contraseñas.
+    **Tipo de Tabla:** Tabla Temporal
+  end note
+  
+  class password_resets {
+    **Campo** | **Tipo** | **Nulo** | **Descripción**
+    ====
+    email | VARCHAR(255) | NO | Correo electrónico del usuario solicitante
+    token | VARCHAR(255) | NO | Token único para validar la solicitud de reset
+    created_at | TIMESTAMP | NO | Fecha y hora de creación del token
+    ....
+    **Índices:**
+    • INDEX (email) → Para búsquedas rápidas por email
+    • INDEX (token) → Para validación rápida de tokens
+    ....
+    **Nota:** Los tokens tienen una validez limitada (60 minutos)
+    y se eliminan automáticamente después de su uso.
+    No tiene clave primaria, permite múltiples solicitudes.
+  }
+}
+
+' ============================================
+' RESUMEN DE RELACIONES
+' ============================================
+
+note as relationships
+  **RELACIONES ENTRE TABLAS**
+  
+  **Relaciones 1:N (Uno a Muchos):**
+  • users → tickets (Un usuario crea muchos tickets)
+  • users → comments (Un usuario escribe muchos comentarios)
+  • tickets → comments (Un ticket tiene muchos comentarios)
+  • categories → tickets (Una categoría agrupa muchos tickets)
+  • priorities → tickets (Una prioridad se asigna a muchos tickets)
+  • statuses → tickets (Un estado clasifica muchos tickets)
+  
+  **Relaciones N:M (Muchos a Muchos):**
+  • users ↔ roles (vía role_user)
+  • roles ↔ permissions (vía permission_role)
+  
+  **Relaciones Especiales:**
+  • password_resets → users (relación lógica por email)
+  • settings → Tabla singleton (1 solo registro)
+end note
+
+' ============================================
+' LEYENDA E INFORMACIÓN
+' ============================================
+
+legend top left
+  **DICCIONARIO DE DATOS COMPLETO - SISTEMA TICKETX**
+  
+  **Convenciones Utilizadas:**
+  • PK = Primary Key (Clave Primaria)
+  • FK = Foreign Key (Clave Foránea)
+  • UNIQUE = Valor único en la tabla (no duplicados)
+  • TIMESTAMP = Fecha y hora automática
+  • CASCADE = Eliminación en cascada
+  • INDEX = Índice para optimizar búsquedas
+  
+  **Información Técnica:**
+  • Motor de Base de Datos: MySQL 5.7+ / MariaDB 10+
+  • Codificación: UTF-8 (utf8mb4_unicode_ci)
+  • Framework: Laravel 5.2
+  • ORM: Eloquent
+  • Total de Tablas: 12
+  
+  **Tablas del Sistema:**
+  • 3 Tablas Principales (users, tickets, comments)
+  • 5 Tablas Catálogo (roles, permissions, categories, priorities, statuses)
+  • 2 Tablas Pivote (role_user, permission_role)
+  • 1 Tabla de Configuración (settings)
+  • 1 Tabla Temporal (password_resets)
+  
+  **Estadísticas:**
+  • Total de Campos: 79 campos
+  • Claves Foráneas: 9 relaciones
+  • Índices Únicos: 7 índices
+  
+  **Fecha de Generación:** 28 de Noviembre de 2025
+  **Versión del Documento:** 2.0 (Completo)
+  **Versión del Sistema:** 1.0
+endlegend
+
+footer Sistema TicketX - Diccionario de Datos Completo | Página %page% | MV Aceros
+
+@enduml

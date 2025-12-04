@@ -3,7 +3,7 @@
 <head>
 <meta name="viewport" content="width=device-width" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Support Ticket Information</title>
+<title>Nuevo Ticket de Soporte</title>
 <style>
 
 /* -------------------------------------
@@ -303,7 +303,7 @@ a {
 				<table class="main" width="100%" cellpadding="0" cellspacing="0">
 					<tr>
 						<td class="alert alert-xticket">
-                        Hola {{ ucfirst($ticketOwner->fullname) }}
+                        Se ha creado un nuevo ticket de soporte. Un cliente necesita asistencia. Los detalles del ticket se muestran a continuación.
 						</td>
 					</tr>
 					<tr>
@@ -311,17 +311,29 @@ a {
 							<table width="100%" cellpadding="0" cellspacing="0">
 								<tr>
 									<td class="content-block">
-                                Su ticket de soporte con ID #{{ $ticket->ticket_id }} ha cambiado de estado a <strong>{{ $ticket->status->name }}</strong>
+										<strong>Cliente:</strong> {{ ucfirst($user->fullname) }} ({{ $user->email }})</br>
+										<strong>Título:</strong> {{ $ticket->title }}</br>
+										<strong>Prioridad:</strong> {{ $ticket->priority->name }}</br>
+										<strong>Estado:</strong> {{ $ticket->status->name }}</br>
+										<strong>Mensaje:</strong>
+									</td>
+								</tr>
+								<tr>
+									<td class="content-block" style="background-color: #f9f9f9; padding: 15px; border-left: 4px solid #605ca8;">
+										{!! str_limit(strip_tags($ticket->message), 200) !!}
+										@if (strlen(strip_tags($ticket->message)) > 200)
+											<br/><em>...ver más en el sistema</em>
+										@endif
 									</td>
 								</tr>
 								<tr>
 									<td class="content-block">
-										<a href="{{ url('tickets/'. $ticket->ticket_id) }}" class="btn-primary">Ver mi ticket</a>
+										<a href="{{ url('tickets/'. $ticket->ticket_id) }}" class="btn-primary">Ver Ticket</a>
 									</td>
 								</tr>
 								<tr>
 									<td class="content-block" style="color: #999; font-size: 12px; font-style: italic;">
-										<strong>Nota:</strong> No responder directamente a este correo. Por favor, acceda al sistema para ver y responder al ticket.
+										<strong>Nota:</strong> No responder directamente a este correo. Por favor, responda al ticket desde el sistema.
 									</td>
 								</tr>
 								<tr>

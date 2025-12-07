@@ -164,6 +164,11 @@ Route::group(['middleware' => ['web']], function () {
             Route::get('tickets/{ticket_id}/edit', ['as' => 'managetickets.edit', 'uses' => 'AdminTicketController@edit', 'middleware' => ['permission:manage-tickets']]);
             Route::patch('tickets/{ticket_id}', ['as' => 'managetickets.update', 'uses' => 'AdminTicketController@update', 'middleware' => ['permission:manage-tickets']]);
             Route::delete('tickets/{ticket_id}', ['as' => 'managetickets.destroy', 'uses' => 'AdminTicketController@destroy', 'middleware' => ['permission:manage-tickets']]);
+
+            // Rutas de Reportes
+            Route::get('reports', ['as' => 'reports.index', 'uses' => 'ReportsController@index', 'middleware' => ['permission:view-backend']]);
+            Route::get('reports/export-excel', ['as' => 'reports.exportExcel', 'uses' => 'ReportsController@exportExcel', 'middleware' => ['permission:view-backend']]);
+            Route::get('reports/export-pdf', ['as' => 'reports.exportPdf', 'uses' => 'ReportsController@exportPdf', 'middleware' => ['permission:view-backend']]);
         });
     });
 });

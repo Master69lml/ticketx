@@ -40,6 +40,10 @@
          @permission('manage-settings')
         <li class="{{ Ekko::isActiveRoute('settings.*') }}"><a href="{{ url('admin/settings') }}"><i class="fa fa-cog"></i> <span>Settings</span></a></li>
         @endpermission
+
+        @permission('view-backend')
+        <li class="{{ Ekko::isActiveRoute('reports.*') }}"><a href="{{ url('admin/reports') }}"><i class="fa fa-bar-chart"></i> <span>Reportes</span></a></li>
+        @endpermission
         
       </ul>
     </section>

@@ -26,7 +26,9 @@
         "dandelionmood/lastfm": "^0.6.0",
         "laravelcollective/html": "^5.2",
         "zizaco/entrust": "5.2.x-dev",
-	"laravelista/ekko": "~1.2"
+	"laravelista/ekko": "~1.2",
+        "maatwebsite/excel": "~2.1",
+        "barryvdh/laravel-dompdf": "~0.8"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

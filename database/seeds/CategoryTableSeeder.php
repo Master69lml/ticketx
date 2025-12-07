@@ -21,7 +21,7 @@ class CategoryTableSeeder extends Seeder
         $createCategory->save();
 
         $createCategory = new Category();
-        $createCategory->name = 'Ventas';
+        $createCategory->name = 'Ventas'; 
         $createCategory->save();
 
         $createCategory = new Category();

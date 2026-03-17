@@ -122,6 +122,23 @@
           </div>
         </div>
         @endpermission
+
+        @permission('manage-users')
+        <div class="col-lg-4 col-xs-6">
+          <div class="small-box bg-success">
+            <div class="inner">
+              <h3>{{ \App\Company::count() }}</h3>
+              <p>Empresas</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-building"></i>
+            </div>
+            <a href="{{ route('companies.index') }}" class="small-box-footer">
+              Más información <i class="fa fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+        @endpermission
       </div>
     </section>
    </div>

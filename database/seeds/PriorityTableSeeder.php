@@ -13,11 +13,11 @@ class PriorityTableSeeder extends Seeder
     public function run()
     {
         $createPriority = new Priority();
-        $createPriority->name = 'Crítica';
+        $createPriority->name = 'Alta';
         $createPriority->save();
 
         $createPriority = new Priority();
-        $createPriority->name = 'Normal';
+        $createPriority->name = 'Media';
         $createPriority->save();
 
         $createPriority = new Priority();

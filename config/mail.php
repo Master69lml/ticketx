@@ -22,26 +22,35 @@ return [
     | SMTP Host Address
     |--------------------------------------------------------------------------
     |
-    | Here you may provide the host address of the SMTP server used by your
-    | applications. A default option is provided that is compatible with
-    | the Mailgun mail service which will provide reliable deliveries.
+    | For AWS SES, use the SMTP endpoint: email-smtp.{region}.amazonaws.com
+    | For other providers, use their respective SMTP endpoints
     |
     */
 
-    'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+    'host' => env('MAIL_HOST', 'email-smtp.us-east-1.amazonaws.com'),
 
     /*
     |--------------------------------------------------------------------------
     | SMTP Host Port
     |--------------------------------------------------------------------------
     |
-    | This is the SMTP port used by your application to deliver e-mails to
-    | users of the application. Like the host we have set this value to
-    | stay compatible with the Mailgun e-mail application by default.
+    | AWS SES typically uses port 587 (TLS) or 465 (SSL)
+    | We use 587 for TLS encryption
     |
     */
 
     'port' => env('MAIL_PORT', 587),
+
+    /*
+    |--------------------------------------------------------------------------
+    | AWS SES Configuration
+    |--------------------------------------------------------------------------
+    */
+    'ses' => [
+        'secret' => env('AWS_SECRET_ACCESS_KEY'),
+        'key'    => env('AWS_ACCESS_KEY_ID'),
+        'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
+    ],
 
     /*
     |--------------------------------------------------------------------------

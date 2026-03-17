@@ -13,7 +13,9 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        // Commands\Inspire::class,
+        \App\Console\Commands\SendTicketEmail::class,
+        \App\Console\Commands\SendCommentEmail::class,
+        \App\Console\Commands\TestSesEmail::class,
     ];
 
     /**

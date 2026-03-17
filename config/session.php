@@ -29,7 +29,8 @@ return [
     |
     */
 
-    'lifetime' => 10,
+    // Session lifetime in minutes. Increased from 10 to 60 to reduce unexpected logouts.
+    'lifetime' => 60,
 
     'expire_on_close' => false,
 

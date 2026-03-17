@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('admin.layouts.master')
 
 @section('content')
 <div class="content-wrapper">
@@ -95,9 +95,12 @@
                     <th>Ticket ID</th>
                     <th>Título</th>
                     <th>Usuario</th>
+                    <th>Empresa</th>
                     <th>Categoría</th>
                     <th>Estado</th>
                     <th>Prioridad</th>
+                    <th>Técnico</th>
+                    <th>Tiempo</th>
                     <th>Fecha Creación</th>
                   </tr>
                 </thead>
@@ -112,6 +115,13 @@
                       </td>
                       <td>{{ $ticket->title }}</td>
                       <td>{{ $ticket->user->fullname ?? 'N/A' }}</td>
+                      <td>
+                        @if($ticket->company)
+                          <span class="label label-default">{{ $ticket->company->name }}</span>
+                        @else
+                          <span class="text-muted">-</span>
+                        @endif
+                      </td>
                       <td>
                         @if($ticket->category)
                           <span class="label label-info">{{ $ticket->category->name }}</span>
@@ -151,11 +161,13 @@
                           <span class="label label-default">N/A</span>
                         @endif
                       </td>
+                      <td>{{ $ticket->technicalStaff ? $ticket->technicalStaff->name : '-' }}</td>
+                      <td>{{ $ticket->getFormattedWorkTime() }}</td>
                       <td>{{ $ticket->created_at->format('d/m/Y H:i') }}</td>
                     </tr>
                   @empty
                     <tr>
-                      <td colspan="8" class="text-center">No hay reportes disponibles</td>
+                      <td colspan="11" class="text-center">No hay reportes disponibles</td>
                     </tr>
                   @endforelse
                 </tbody>

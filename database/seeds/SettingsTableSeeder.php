@@ -14,12 +14,12 @@ class SettingsTableSeeder extends Seeder
         \DB::table('settings')->insert([
             0 => [
                 'id'         => 1,
-                'site_name'  => 'TicketMV',
+                'site_name'  => 'TEO Tickets',
                 'site_url'   => 'http://example.com',
                 'email_to'   => 'admin@example.com',
                 'email_from' => 'admin@example.com',
-                'created_at' => '2016-08-29 13:42:19',
-                'updated_at' => '2016-08-29 13:42:19',
+                'created_at' => '2024-06-10 13:42:19',
+                'updated_at' => '2024-06-10 13:42:19',
             ],
      ]);
     }

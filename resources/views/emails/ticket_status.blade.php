@@ -327,7 +327,7 @@ a {
 								<tr>
 									<td class="content-block">
 										Atentamente,<br/>
-										<strong>Equipo de Soporte MV Aceros</strong>
+										<strong>Equipo de Soporte TEO</strong>
 									</td>
 								</tr>
 							</table>

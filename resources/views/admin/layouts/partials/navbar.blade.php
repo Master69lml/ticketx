@@ -28,6 +28,10 @@
         @permission('manage-users')
         <li class="{{ Ekko::isActiveRoute('users.*') }}"><a href="{{ url('admin/users') }}"><i class="fa fa-users"></i> <span>Users</span></a></li>
         @endpermission
+
+        @permission('manage-users')
+        <li class="{{ Ekko::isActiveRoute('companies.*') }}"><a href="{{ url('admin/companies') }}"><i class="fa fa-building"></i> <span>Empresas</span></a></li>
+        @endpermission
         
         @permission('manage-roles')
         <li class="{{ Ekko::isActiveRoute('roles.*') }}"><a href="{{ url('admin/roles') }}"><i class="fa fa-archive"></i> <span>Roles</span></a></li>

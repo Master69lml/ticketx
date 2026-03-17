@@ -82,6 +82,14 @@
                     </div>
                     
                     <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <strong>Empresas:</strong>
+                            {!! Form::select('companies[]', $companies,[], array('class' => 'form-control','multiple')) !!}
+                            <small class="text-muted">Mantén presionado Ctrl (o Cmd en Mac) para seleccionar múltiples empresas</small>
+                        </div>
+                    </div>
+                    
+                    <div class="col-xs-12 col-sm-12 col-md-12">
             				<button type="submit" class="btn bg-purple">Submit</button>
                     </div>
                     

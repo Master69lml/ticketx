@@ -90,7 +90,7 @@
                     </form>                
                 
                     <a href="{{ url('/password/reset') }}">{{ trans('auth.forgot_password') }}</a><br>
-                    <a href="{{ url('/signup') }}">{{ trans('auth.sign_up_account') }}</a><br>
+                    {{-- <a href="{{ url('/signup') }}">{{ trans('auth.sign_up_account') }}</a><br> --}}
                     <a href="{{ url('/') }}">{{ trans('texts.return_home') }}</a><br>
                   
                    </div>

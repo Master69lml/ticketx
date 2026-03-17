@@ -29,7 +29,7 @@
 
                 <p>
                   {{ Auth::user()->fullname }}
-                  <small>Member since {{ Auth::user()->created_at->format('l jS \\of F Y') }}</small>
+                  <small>Miembro desde {{ Auth::user()->created_at->formatLocalized('%A %d de %B de %Y') }}</small>
                 </p>
               </li>
 

@@ -29,6 +29,8 @@
 
               <p class="text-muted text-center">{{ $account->email }}</p>
 
+              {{-- Información oculta: Ubicación y Sitio Web --}}
+              {{--
               <ul class="list-group list-group-unbordered">
                 <li class="list-group-item">
                   <b>{{ trans('texts.location') }}</b> <a class="pull-right">{{ $account->location }}</a>
@@ -37,6 +39,7 @@
                   <b>{{ trans('texts.website') }}</b> <a class="pull-right" href="{{ $account->website }}">{{ $account->website }}</a>
                 </li>
               </ul>
+              --}}
             </div>
           </div>
         </div>
@@ -47,7 +50,7 @@
               <li class="active"><a href="#profile" data-toggle="tab">{{ trans('texts.profile_information') }}</a></li>
               <li><a href="#avatar" data-toggle="tab">{{ trans('texts.manage_your_avatar') }}</a></li>
               <li><a href="#password" data-toggle="tab">{{ trans('texts.change_password') }}</a></li>
-              <li><a href="#deleteaccount" data-toggle="tab">{{ trans('texts.delete_account') }}</a></li>
+              {{-- <li><a href="#deleteaccount" data-toggle="tab">{{ trans('texts.delete_account') }}</a></li> --}}
             </ul>
             <div class="tab-content">
               <div class="active tab-pane" id="profile">
@@ -72,6 +75,8 @@
                 @endif
             </div>
         </div>
+        {{-- Campo Género oculto --}}
+        {{--
         <div class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
             <label for="name" class="col-sm-2 control-label">{{ trans('texts.gender') }}</label>
             <div class="col-sm-4">
@@ -95,18 +100,25 @@
                 @endif
             </div>
         </div>
+        --}}
+        {{-- Campo Ubicación oculto --}}
+        {{--
         <div class="form-group">
             <label for="location" class="col-sm-2 control-label">{{ trans('texts.location') }}</label>
             <div class="col-sm-4">
                 <input type="text" name="location" id="location" value="{{ $account->location ?: old('location') }}" class="form-control" placeholder="Lagos, Nigeria">
             </div>
         </div>
+        --}}
+        {{-- Campo Sitio Web oculto --}}
+        {{--
         <div class="form-group">
             <label for="website" class="col-sm-2 control-label">{{ trans('texts.website') }}</label>
             <div class="col-sm-4">
                 <input type="text" name="website" id="website" value="{{ $account->website ?: old('website') }}" class="form-control" placeholder="http://goodheads.io">
             </div>
         </div>
+        --}}
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-8">
                 <button type="submit" class="btn bg-purple"><i class="fa fa-pencil"></i> {{ trans('texts.update_profile') }}</button>

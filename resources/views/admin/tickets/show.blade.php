@@ -37,6 +37,20 @@
                                     <p><strong>Categoría:</strong> {{ Form::select('category',$categories,$ticket->category_id,['class'=>'form-control'])}}</p>
                                     <p><strong>Estado:</strong> {{ Form::select('status',$statuses,$ticket->status_id,['class'=>'form-control'])}}</p>
                                     <p><strong>Prioridad:</strong> {{ Form::select('priority',$prioritys,$ticket->priority_id,['class'=>'form-control'])}}</p>
+                                    <p><strong>Técnico Asignado:</strong> {{ Form::select('technical_staff_id',$technicalStaff,$ticket->technical_staff_id,['class'=>'form-control', 'placeholder' => 'Seleccionar técnico'])}}</p>
+                                    <p><strong>Tiempo de Trabajo:</strong>
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                {{ Form::number('work_hours', floor($ticket->work_time / 60), ['class'=>'form-control work-hours-input', 'placeholder' => 'Horas', 'min' => '0', 'style' => 'font-size: 12px; padding: 5px; height: 30px;']) }}
+                                                <small>Horas</small>
+                                            </div>
+                                            <div class="col-xs-3">
+                                                {{ Form::number('work_minutes', $ticket->work_time % 60, ['class'=>'form-control work-minutes-input', 'placeholder' => 'Min', 'min' => '0', 'max' => '59', 'style' => 'font-size: 12px; padding: 5px; height: 30px;', 'id' => 'work_minutes']) }}
+                                                <small>Minutos (0-59)</small>
+                                            </div>
+                                        </div>
+                                        <span id="minutes-error" style="color: red; font-size: 11px; display: none;">Los minutos deben estar entre 0 y 59. Si necesita 60+ minutos, conviértalos a horas.</span>
+                                    </p>
                                     <p><strong>Creado:</strong> {{ $ticket->created_at->diffForHumans() }}</p>
                                     <p><strong>Última Actualización:</strong> {{ $ticket->updated_at->diffForHumans() }}</p>
                                     
@@ -126,5 +140,46 @@
     </section>
 
   </div>
- 
+
+<script>
+$(document).ready(function() {
+    var $minutesInput = $('#work_minutes');
+    var $hoursInput = $('.work-hours-input');
+    var $errorMsg = $('#minutes-error');
+
+    function validateMinutes() {
+        var minutes = parseInt($minutesInput.val()) || 0;
+        
+        if (minutes > 59) {
+            $errorMsg.show();
+            $minutesInput.val(59);
+            $minutesInput.css('border-color', '#dd4b39');
+            setTimeout(function() {
+                $minutesInput.css('border-color', '');
+                $errorMsg.fadeOut();
+            }, 3000);
+            return false;
+        } else if (minutes < 0) {
+            $minutesInput.val(0);
+            return false;
+        } else {
+            $errorMsg.hide();
+            return true;
+        }
+    }
+
+    $minutesInput.on('blur', validateMinutes);
+    $minutesInput.on('change', validateMinutes);
+    
+    $minutesInput.on('keyup', function() {
+        var minutes = parseInt($(this).val()) || 0;
+        if (minutes > 59) {
+            $(this).val(59);
+        } else if (minutes < 0) {
+            $(this).val(0);
+        }
+    });
+});
+</script>
+
 @endsection

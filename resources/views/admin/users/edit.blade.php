@@ -68,6 +68,12 @@
                 {!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control','multiple')) !!}
             </div>
 
+            <div class="form-group">
+                <strong>Empresas:</strong>
+                {!! Form::select('companies[]', $companies,$userCompanies, array('class' => 'form-control','multiple')) !!}
+                <small class="text-muted">Mantén presionado Ctrl (o Cmd en Mac) para seleccionar múltiples empresas</small>
+            </div>
+
 				<button type="submit" class="btn bg-purple">Submit</button>
 
             </div>

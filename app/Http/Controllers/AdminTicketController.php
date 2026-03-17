@@ -9,6 +9,8 @@ use App\Priority;
 use App\Status;
 use App\Ticket;
 use App\User;
+use App\TechnicalStaff;
+use App\Company;
 use DB;
 use Illuminate\Http\Request;
 
@@ -96,7 +98,9 @@ class AdminTicketController extends Controller
 
         $prioritys = Priority::lists('name', 'id');
 
-        return view('admin.tickets.show', compact('ticket', 'categories', 'statuses', 'prioritys', 'comments'));
+        $technicalStaff = TechnicalStaff::where('active', true)->lists('name', 'id');
+
+        return view('admin.tickets.show', compact('ticket', 'categories', 'statuses', 'prioritys', 'comments', 'technicalStaff'));
     }
 
     public function update(Request $request, $ticket_id, AppMailer $mailer)
@@ -111,6 +115,13 @@ class AdminTicketController extends Controller
         $ticket->category_id = $request->input('category');
         $ticket->priority_id = $request->input('priority');
         $ticket->status_id = $request->input('status');
+        $ticket->technical_staff_id = $request->input('technical_staff_id');
+        
+        // Calcular el tiempo de trabajo en minutos
+        $work_hours = $request->input('work_hours', 0);
+        $work_minutes = $request->input('work_minutes', 0);
+        $ticket->work_time = ($work_hours * 60) + $work_minutes;
+        
         $ticket->save();
 
         $ticketOwner = $ticket->user;

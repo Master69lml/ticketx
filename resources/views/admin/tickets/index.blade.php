@@ -43,10 +43,13 @@
                                     <th>ID Ticket</th>
                                     <th>Título</th>
                                     <th>Usuario</th>
+                                    <th>Empresa</th>
                                     <th>Comentarios</th>
                                     <th>Categoría</th>
                                     <th>Estado</th>
                                     <th>Prioridad</th>
+                                    <th>Técnico</th>
+                                    <th>Tiempo</th>
                                     <th>Creado</th>
                                     <th>Última Actualización</th>
                                 </tr>
@@ -60,7 +63,8 @@
                                             {{ $ticket->title }}
                                         </a>
                                     </td>  
-                                    <td>{{ $ticket->user->fullname }}</td>                                    
+                                    <td>{{ $ticket->user->fullname }}</td>
+                                    <td>{{ $ticket->company ? $ticket->company->name : '-' }}</td>
                                     <td><span class="badge">{{ count($ticket->comments) }}</span></td>
                                     <td>
                                     @foreach ($categories as $category)
@@ -96,7 +100,9 @@
                                             @endif                                        
                                         @endif
                                     @endforeach
-                                    </td>   
+                                    </td>
+                                    <td>{{ $ticket->technicalStaff ? $ticket->technicalStaff->name : '-' }}</td>
+                                    <td>{{ $ticket->getFormattedWorkTime() }}</td>
                                     <td>{{ $ticket->created_at->diffForHumans() }}</td>
                                     <td>{{ $ticket->updated_at->diffForHumans() }}</td>
                                 </tr>

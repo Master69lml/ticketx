@@ -41,6 +41,7 @@
               <th>Email</th>
               <th>Provider</th>
               <th>Roles</th>
+              <th>Empresas</th>
             </tr>
             </thead>
             <tbody>
@@ -55,6 +56,15 @@
                         @foreach($user->roles as $v)
                           <label class="label label-success">{{ $v->display_name }}</label>
                         @endforeach
+                    </td>
+                    <td>
+                        @if($user->companies->isEmpty())
+                          <span class="text-muted">Sin empresa</span>
+                        @else
+                          @foreach($user->companies as $company)
+                            <label class="label label-info">{{ $company->name }}</label>
+                          @endforeach
+                        @endif
                     </td>
                   </tr>
                   @endforeach

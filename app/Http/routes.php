@@ -24,9 +24,19 @@
 */
 
 Route::group(['middleware' => ['web']], function () {
-    Route::get('/', [
-    'as' => 'home', 'uses' => 'PageController@home',
-        ]);
+    Route::get('/', function () {
+        if (Auth::guest()) {
+            return redirect()->route('auth.login');
+        }
+        return redirect()->route('tickets.index');
+    })->name('home');
+
+    // Ruta de upload de imágenes para Summernote (sin CSRF protection)
+    Route::post('summernote/upload', [
+        'uses' => 'TicketsController@uploadSummernoteImage',
+        'as' => 'summernote.upload',
+        'middleware' => ['auth']
+    ]);
 
     Route::get('/login', [
         'uses'       => 'Auth\AuthController@getLogin',
@@ -115,6 +125,12 @@ Route::group(['middleware' => ['web']], function () {
         'as'   => 'contact',
     ]);
 
+    // Ruta pública para ver ticket sin autenticación
+    Route::get('/ticket-view/{ticket_id}', [
+        'uses' => 'TicketsController@publicShow',
+        'as'   => 'ticket.public',
+    ]);
+
     Route::group(['middleware' => ['auth']], function () {
         Route::get('tickets', 'TicketsController@userTickets')->name('tickets.index');
         Route::get('tickets/create', 'TicketsController@create')->name('tickets.create');
@@ -133,7 +149,7 @@ Route::group(['middleware' => ['web']], function () {
             Route::get('users/create', ['as' => 'users.create', 'uses' => 'UserController@create', 'middleware' => ['permission:manage-users']]);
             Route::post('users/create', ['as' => 'users.store', 'uses' => 'UserController@store', 'middleware' => ['permission:manage-users']]);
             Route::get('users', ['as' => 'users.index', 'uses' => 'UserController@index', 'middleware' => ['permission:manage-users']]);
-            Route::get('users{id}/edit', ['as' => 'users.edit', 'uses' => 'UserController@edit', 'middleware' => ['permission:manage-users']]);
+            Route::get('users/{id}/edit', ['as' => 'users.edit', 'uses' => 'UserController@edit', 'middleware' => ['permission:manage-users']]);
             Route::get('users/{id}', ['as' => 'users.show', 'uses' => 'UserController@show', 'middleware' => ['permission:manage-users']]);
             Route::patch('users/{id}', ['as' => 'users.update', 'uses' => 'UserController@update', 'middleware' => ['permission:manage-users']]);
             Route::delete('users/{id}', ['as' => 'users.destroy', 'uses' => 'UserController@destroy', 'middleware' => ['permission:manage-users']]);
@@ -145,6 +161,13 @@ Route::group(['middleware' => ['web']], function () {
             Route::get('roles/{id}/edit', ['as' => 'roles.edit', 'uses' => 'RoleController@edit', 'middleware' => ['permission:manage-roles']]);
             Route::patch('roles/{id}', ['as' => 'roles.update', 'uses' => 'RoleController@update', 'middleware' => ['permission:manage-roles']]);
             Route::delete('roles/{id}', ['as' => 'roles.destroy', 'uses' => 'RoleController@destroy', 'middleware' => ['permission:manage-roles']]);
+
+            Route::get('companies', ['as' => 'companies.index', 'uses' => 'CompanyController@index', 'middleware' => ['permission:view-backend']]);
+            Route::get('companies/create', ['as' => 'companies.create', 'uses' => 'CompanyController@create', 'middleware' => ['permission:manage-users']]);
+            Route::post('companies', ['as' => 'companies.store', 'uses' => 'CompanyController@store', 'middleware' => ['permission:manage-users']]);
+            Route::get('companies/{id}/edit', ['as' => 'companies.edit', 'uses' => 'CompanyController@edit', 'middleware' => ['permission:manage-users']]);
+            Route::patch('companies/{id}', ['as' => 'companies.update', 'uses' => 'CompanyController@update', 'middleware' => ['permission:manage-users']]);
+            Route::delete('companies/{id}', ['as' => 'companies.destroy', 'uses' => 'CompanyController@destroy', 'middleware' => ['permission:manage-users']]);
 
             Route::get('permissions', ['as' => 'permissions.index', 'uses' => 'PermissionController@index', 'middleware' => ['permission:manage-permissions']]);
             Route::get('permissions/create', ['as' => 'permissions.create', 'uses' => 'PermissionController@create', 'middleware' => ['permission:manage-permissions']]);

@@ -13,20 +13,20 @@ class CategoryTableSeeder extends Seeder
     public function run()
     {
         $createCategory = new Category();
-        $createCategory->name = 'Técnico';
+        $createCategory->name = 'Desarrollo';
         $createCategory->save();
 
         $createCategory = new Category();
-        $createCategory->name = 'Error';
+        $createCategory->name = 'Soporte';
         $createCategory->save();
 
         $createCategory = new Category();
-        $createCategory->name = 'Ventas'; 
+        $createCategory->name = 'Reunión'; 
         $createCategory->save();
 
-        $createCategory = new Category();
+        /*$createCategory = new Category();
         $createCategory->name = 'Cableado';
-        $createCategory->save();
+        $createCategory->save();*/
 
     }
 }

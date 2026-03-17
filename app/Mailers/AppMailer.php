@@ -76,12 +76,47 @@ class AppMailer
     public function sendTicketToSupportTeam($user, Ticket $ticket)
     {
         $statuses = Status::all();
-        $this->to = 'andersondelvalle44@gmail.com';
+        
+        // Obtener los correos del equipo de soporte desde .env
+        $supportEmails = $this->getSupportTeamEmails();
+        
+        if (empty($supportEmails)) {
+            return false;
+        }
+        
         $this->subject = "[Nuevo Ticket ID: $ticket->ticket_id] $ticket->title";
         $this->view = 'emails.ticket_support';
         $this->data = compact('user', 'ticket', 'statuses');
 
-        return $this->deliver();
+        // Enviar UN solo correo con todos los destinatarios
+        try {
+            $this->mailer->send($this->view, $this->data, function ($message) use ($supportEmails) {
+                $message->from(email_from(), site_name())
+                        ->to($supportEmails)
+                        ->subject($this->subject);
+            });
+        } catch (\Exception $e) {
+            throw $e;
+        }
+
+        return true;
+    }
+
+    /**
+     * Get support team emails from .env configuration.
+     *
+     * @return array
+     */
+    protected function getSupportTeamEmails()
+    {
+        $emails = env('SUPPORT_TEAM_EMAILS', '');
+        
+        if (empty($emails)) {
+            return [];
+        }
+        
+        // Convertir string separado por comas en array y limpiar espacios
+        return array_map('trim', explode(',', $emails));
     }
 
     /**

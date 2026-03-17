@@ -130,7 +130,7 @@
 </head>
 <body>
     <div class="header">
-        <h1>Reporte de Tickets - MV Aceros</h1>
+        <h1>Reporte de Tickets - TeoTickets</h1>
         <p>Generado: {{ date('d/m/Y H:i:s') }}</p>
     </div>
 

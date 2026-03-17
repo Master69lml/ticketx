@@ -318,7 +318,7 @@ a {
 								</tr>
 								<tr>
 									<td class="content-block">
-										<a href="{{ url('tickets/'. $ticket->ticket_id) }}" class="btn-primary">Ver mi ticket</a>
+										<a href="{{ url('ticket-view/'. $ticket->ticket_id) }}" class="btn-primary">Ver mi ticket</a>
 									</td>
 								</tr>
 								<tr>
@@ -329,7 +329,7 @@ a {
 								<tr>
 									<td class="content-block">
 										Atentamente,<br/>
-										<strong>Equipo de Soporte MV Aceros</strong>
+										<strong>Equipo de Soporte TEO</strong>
 									</td>
 								</tr>
 							</table>

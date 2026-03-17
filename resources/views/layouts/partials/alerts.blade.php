@@ -12,6 +12,19 @@
     </div>
 @endif
 
+@if ( session()->has('error'))
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        Swal.fire({
+            title: 'Aviso',
+            text: "{{ session()->get('error') }}",
+            icon: 'warning',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Entendido'
+        });
+    </script>
+@endif
+
 	@if ( session()->has('success'))
 		<div class="alert alert-success">
 		    <button type="button" class="close" data-dismiss="alert">x</button>

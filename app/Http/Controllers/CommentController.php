@@ -7,6 +7,7 @@ use App\Ticket;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class CommentController extends Controller
 {
@@ -22,8 +23,22 @@ class CommentController extends Controller
                     'comment'   => $request->input('comment'),
                 ]);
 
+        // Enviar correos en background sin bloquear la respuesta
         if ($comment->ticket->user->id !== Auth::user()->id) {
-            $mailer->sendTicketComments($comment->ticket->user, Auth::user(), $comment->ticket, $comment);
+            $userId = Auth::user()->id;
+            $ticketId = $comment->ticket->id;
+            $commentId = $comment->id;
+
+            $phpBin = defined('PHP_BINARY') ? PHP_BINARY : 'php7.4';
+            $artisan = base_path() . '/artisan';
+            $cmd = escapeshellcmd($phpBin) . ' ' . escapeshellarg($artisan) . " send:comment-email $userId $ticketId $commentId > /dev/null 2>&1 &";
+
+            if (!function_exists('exec')) {
+                Log::error('exec() no está disponible en este entorno. Comando pendiente: ' . $cmd);
+            } else {
+                exec($cmd, $output, $returnVar);
+                Log::info('send:comment-email ejecutado', ['cmd' => $cmd, 'return' => $returnVar, 'output' => $output]);
+            }
         }
 
         return redirect()->back()->with('success', 'Your comment has be submitted.');

@@ -46,4 +46,20 @@ class User extends Authenticatable
     {
         return $this->oauth_token_secret;
     }
+
+    /**
+     * The companies that belong to the user.
+     */
+    public function companies()
+    {
+        return $this->belongsToMany(Company::class);
+    }
+
+    /**
+     * Get the tickets for the user.
+     */
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class);
+    }
 }

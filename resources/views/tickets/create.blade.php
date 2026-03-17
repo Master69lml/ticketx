@@ -40,6 +40,8 @@
                             </div>
                         </div>
 
+                        {{-- Campo de categoría oculto --}}
+                        {{--
                         <div class="form-group{{ $errors->has('category') ? ' has-error' : '' }}">
                             <label for="category" class="col-md-4 control-label">Categoría</label>
 
@@ -58,6 +60,28 @@
                                 @endif
                             </div>
                         </div>
+                        --}}
+
+                        @if ($companies->count() > 1)
+                        <div class="form-group{{ $errors->has('company') ? ' has-error' : '' }}">
+                            <label for="company" class="col-md-4 control-label">Empresa</label>
+
+                            <div class="col-md-6">
+                                <select id="company" class="form-control" name="company" required>
+                                    <option value="">Seleccionar Empresa</option>
+                                    @foreach ($companies as $company)
+                                    <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                    @endforeach
+                                </select>
+
+                                @if ($errors->has('company'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('company') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        @endif
 
                         <div class="form-group{{ $errors->has('priority') ? ' has-error' : '' }}">
                             <label for="priority" class="col-md-4 control-label">Prioridad</label>
@@ -79,10 +103,10 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('message') ? ' has-error' : '' }}">
-                            <label for="message" class="col-md-4 control-label">Mensaje</label>
+                            <label for="message" class="col-md-4 control-label">Descripción del Problema</label>
 
                             <div class="col-md-6">
-                                <textarea rows="10" id="summernote" class="form-control" placeholder="Escribe tu mensaje" name="message"></textarea>
+                                <textarea rows="10" id="summernote" class="form-control" placeholder="Describe el problema" name="message"></textarea>
 
                                 @if ($errors->has('message'))
                                     <span class="help-block">
